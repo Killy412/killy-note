@@ -128,6 +128,31 @@ docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qa
 1. select user, host, plugin from user;查询加密插件
 2. ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 修改加密方式
 
+## docker安装rabbitmq
+- 运行容器
+```shell
+docker run -d --hostname rabbit-host --name rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1qaz@WSX
+-p 15672:15672 -p 5672:5672 rabbitmq:3.7.15-management
+```
+
+1. 进入容器 docker exec -it xxx bash
+2. 添加用户
+```cmd
+rabbitmqctl add_user root 123456 
+```
+3. 赋予权限
+```shell
+rabbitmqctl set_permissions -p / root ".*" ".*" ".*"
+```
+4. 赋予角色
+```
+rabbitmqctl set_user_tags root adminstrator
+```
+5. 查看用户列表以及角色
+
+```
+rabbitmqctl list_users
+```
 
 
 # **服务器重启,使用容器重启命令**
