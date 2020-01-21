@@ -15,7 +15,7 @@ curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2
 ```
 
 ```shell
-编辑/etc/docker/daemon.json文件{"registry-mirrors":["https://docker.mirrors.ustc.edu.cn"]}BashCC++C#CSSGoHaskellHTMLJavaJavaScriptJSONJSXkotlinPHPPowerShellPythonRubyRustSQLSwiftTypeScriptXML
+{"registry-mirrors":["https://docker.mirrors.ustc.edu.cn"]}BashCC++C#CSSGoHaskellHTMLJavaJavaScriptJSONJSXkotlinPHPPowerShellPythonRubyRustSQLSwiftTypeScriptXML
 ```
 
 编辑/etc/docker/daemon.json文件，把结尾的逗号去掉
@@ -32,7 +32,7 @@ docker images -a
 #重命名镜像
 docker tag 旧镜像 新镜像
 #删除镜像
-docker rmi 镜像名字
+docker rmi 镜像ID
 #导出镜像
 docker save -o 压缩文件路径 镜像名字
 #导入镜像
@@ -66,6 +66,8 @@ docker stop 容器
 docker start -i 容器
 docker rm -f xxx 删除容器 
 docker restart 容器id
+docker update --restart=always 容器id  更新启动方式
+docker logs -f -t --tail 行数 容器ID  实时查看docker日志
 ```
 
 - 进入容器
@@ -153,6 +155,5 @@ rabbitmqctl set_user_tags root adminstrator
 ```
 rabbitmqctl list_users
 ```
-
 
 # **服务器重启,使用容器重启命令**
