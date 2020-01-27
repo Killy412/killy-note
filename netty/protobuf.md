@@ -6,7 +6,7 @@
 - 可扩展的数据结构的协议
 - 和xml/json类似,主要用于数据存储,传输协议格式等场合
 
-```
+```protobuf
 syntax = "proto3";
 
 message SearchRequest {

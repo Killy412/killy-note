@@ -1,5 +1,6 @@
 # netty
 
+## 基础
 > 关于Netty：
 >
 > Netty是一个高性能、异步事件驱动的NIO框架，它提供了对TCP、UDP和文件传输的支持，作为一个异步NIO框架，Netty的所有IO操作都是异步非阻塞的，通过Future-Listener机制，用户可以方便的主动获取或者通过通知机制获得IO操作结果。作为当前最流行的NIO框架，Netty在互联网领域、大数据分布式计算领域、游戏行业、通信行业等获得了广泛的应用，一些业界著名的开源组件也基于Netty的NIO框架构建。
@@ -25,18 +26,6 @@ Accept连接可以使用单独的线程池去处理,读写操作又是另外的�
 - 粘包:发送端发包时把三个数据包粘成两个TCP包发送
 - 拆包:接收端根据应用协议将两个TCP包拆成三个数据包
 
-## netty零拷贝
-
-
-
-
-
-
-
-
-
-
-
 # [netty视频笔记](https://v-wb.youku.com/v_show/id_XMzQ5NTE5MzEzNg==.html)
 
 Channel是对socket的抽象,每个Channel对应一个ChannelPipline,ChannelPipline是一个包含了不同的ChannelHandler的双向链表,ChannelHandler可以处理InBound和OutBound事件
@@ -49,3 +38,15 @@ EventExector相当于EventLoop
 
 > channel 渠道
 > pipline  管道
+
+# IO模型
+
+1. 同步阻塞(**Blocking IO**)
+2. 同步非阻塞(**Non-blocking IO**)
+3. IO多路复用(**IO Multiplexing**):经典的Reactor反应器设计模式,也被称为异步阻塞IO
+4. 异步IO(**Asynchronous IO**)
+
+> 阻塞和非阻塞:
+> 阻塞IO指的是需要内核IO操作彻底完成之后,才返回到用户空间执行用户的操作.阻塞指的是用户空间程序的执行状态.
+> 同步和异步:
+> 同步IO是指用户空间的线程主动发起IO请求的一方,内核空间是被动接收方.异步IO反过来,系统内核是主动发起IO请求的一方.
