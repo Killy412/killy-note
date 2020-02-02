@@ -1,10 +1,5 @@
 # idea docker插件使用部署springboot项目
 
-## docker构建springboot镜像
-- Docker Image
-- Docker-compose
-- Dockerfile
-
 ## docker运行springboot项目
 * docker开启远程访问
 ```shell
@@ -37,6 +32,7 @@ ExecStart=/usr/bin/dockerd  -H tcp://0.0.0.0:2375  -H unix:///var/run/docker.soc
     <configuration>
         <imageName>${docker.image.prefix}/${project.artifactId}</imageName> #镜像名
         <dockerDirectory>src/main/docker</dockerDirectory>
+        <dockerHost>http://47.103.10.118:2375</dockerHost>
         <resources>
             <resource>
                 <targetPath>/</targetPath>
@@ -50,7 +46,7 @@ ExecStart=/usr/bin/dockerd  -H tcp://0.0.0.0:2375  -H unix:///var/run/docker.soc
 
 * 在目录/src/main/docker/下创建dockerfile文件,用来说明如何构建镜像
 
-```
+```shell
 #指定基础镜像，在其上进行定制
 FROM java:8
 
@@ -70,17 +66,19 @@ EXPOSE 9001
 ENTRYPOINT ["java","-jar","app.jar"]
 ```
 
-- jar包和Dockerfile传到服务器
+- maven插件构建镜像
 
-- 构建镜像
-
+```shell
+mvn package docker:build
 ```
-docker build -t 项目名 .
+- 查看服务器镜像
+```shell
+docker images
 ```
 
 - 运行容器
 
-```
-docker run -d -p 8080:8080 -p  springboot1:1.0
+```shell
+docker run -d --name him-api -p 9000:9000 -p 9001:9001 springboot/him-api:latest
 ```
 

@@ -8,7 +8,7 @@
 
 ```protobuf
 syntax = "proto3";
-
+option java_package = "";
 message SearchRequest {
   string query = 1;
   int32 page_number = 2;
@@ -22,9 +22,16 @@ message SearchRequest {
 ## 基础
 ### 消息定义
 1. 指定字段类型
+- 数字类型:**double、float、int32、int64、uint32、uint64、sint32、sint64**,存储长度可变的浮点数,整型,无符号整数,有符号整数
+- 固定长度的数字类型: **fixed32、fixed64、sfixed32、sfixed64**
+- 布尔类型 : **bool**
+- 字符串 : string
+- 字节数组 bytes
+- 消息类型 **messageType**
+- 枚举类型 **enumType**
 2. 分配标识号
 3. 指定字段规则,字段修饰符必须是如下之一
-	- required 表示该值必须包含
+	- required 表示该值必须包含 **proto3中去掉了该选项**
 	- optional 该字段必须有0/1个值,不超过一个,默认值选项:**[default = 10]**
 	- repeated  表示该字段可以被重复任意次,类比Java中的list,使用特殊选项**[packed=true]**保证编码高效
 4. 定义枚举
