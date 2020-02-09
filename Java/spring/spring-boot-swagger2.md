@@ -91,4 +91,5 @@ public class SwaggerConfig {
 	* value 参数意义描述
 	* required 是否必须,true:必须 false:非必须
 - @ApiModel() 设置接口相关实体描述
+	* 
 - @ApiModelProperty() 实体属性相关描述
