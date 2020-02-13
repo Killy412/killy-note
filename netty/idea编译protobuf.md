@@ -1,5 +1,6 @@
-# idea编译protobuf文件
+# 编译protobuf文件
 
+## maven插件编译
 1. properties标签添加
 
 ```xml
@@ -64,3 +65,12 @@ mvn compile
 
 ### 在target->generated-sources->protobuf文件中
 
+## 命令行编译
+```
+D:>protoc-3.5.1-windows-x86_64.exe --proto_path F:\ideaproject\kylin-kylin-2.6.0\storage-hbase\src\main\java\org\apache\kylin\storage\hbase\cube\v2\coprocessor\endpoint\protobuf --java_out ./ CubeVisit1.proto
+```
+
+- protoc，编译命令；
+- --proto_path,就是你的proto文件所在目录是哪。我这里是F:\ideaproject\kylin-kylin-2.6.0\storage-hbase\src\main\java\org\apache\kylin\storage\hbase\cube\v2\coprocessor\endpoint\protobuf。
+- --java_out，标识输出的java文件应该放在哪个目录。这里的 ./ 是指当前目录。
+- protoDemo.proto，就是我们要编译的文件

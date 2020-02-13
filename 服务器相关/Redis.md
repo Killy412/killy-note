@@ -1,23 +1,86 @@
 # Redis相关
 ## 常用命令
 ```shell
-redis-cli                    # 登录
-auth ""                      # 密码认证
-set <key> <value>            # 设置键值对
-get <key>                    # 获取
-exists <key>                 # 判断是否存在
-ttl <key>                    # 查看过期时间(秒)
-pttl <key>                   # 查看过期时间(毫秒)
-expire <key>  <expire_time>  # 设置过期时间
-strlen <key>                 # 对应值的长度
-del <key>                    # 删除对应的键
-type <key>                   # 查看数据结构类型
-rename <key> <newkey>        # 重命名 newkey不存在时才会重命名
-randomkey                    # 随机返回一个key
+redis-cli                                    # 登录
+auth ""                                      # 密码认证
+set <key> <value>                            # 设置键值对
+get <key>                                    # 获取
+exists <key>                                 # 判断是否存在
+ttl <key>                                    # 查看过期时间(秒)
+pttl <key>                                   # 查看过期时间(毫秒)
+expire <key>  <expire_time>                  # 设置过期时间
+strlen <key>                                 # 对应值的长度
+del <key>                                    # 删除对应的键
+type <key>                                   # 查看数据结构类型
+rename <key> <newkey>                        # 重命名 newkey不存在时才会重命名
+randomkey                                    # 随机返回一个key
 
 ```
 
 ## 常用数据类型
+### string
+```shell
+set <key> <value>                            # 设置键值对
+get <key>                                    # 获取
+exists <key>                                 # 判断是否存在
+ttl <key>                                    # 查看过期时间(秒)
+pttl <key>                                   # 查看过期时间(毫秒)
+expire <key>  <expire_time>                  # 设置过期时间
+strlen <key>                                 # 对应值的长度
+del <key>                                    # 删除对应的键
+type <key>                                   # 查看数据结构类型
+rename <key> <newkey>                        # 重命名 newkey不存在时才会重命名
+```
+
+### hash
+```shell
+hset <key> <field> <value>                   # 设置值
+hget <key> <field>                           # 获取值
+hdel <key> <field>
+hlen <key>                                   # field 个数
+hmget <key> <field> [...]
+hmset <key> <field> [...]
+hkeys <key>                                  # 获取所有field
+hvals <key>                                  # 获取所有value
+hgetall <key>
+hstrlen <key> <field>                        # 获取字段长度
+hexists <k> <f>                              # 判断是否有某field
+hincrbyfloat <k> <f> increment               # key指定字段增加数值(float)
+hincrby <k> <f> <increment>                  # key指定字段增加数值(int)
+hscan <k> <cursor>                           # 迭代hash表中的值
+```
+
+### list
+```shell
+# 新增
+rpush <key> <value> [value...]                # 右边插入元素
+lpush <key> <value> [value...]                # 左边插入元素
+linsert <key> before/after <value> <value>    # 指定位置添加元素
+# 查找
+lrange <key> <start> <end>                    # 查看
+lindex <key> <index>                          # 获取指定下标的元素
+llen <key>                                    # 列表长度
+# 删除
+lpop <key>
+rpop <key>
+lrem <key> <count> <value>
+# Lrem命令会从列表中找到=value的元素进行删除，根据count的不同分为3中情况
+# Count>0,从左到有，删除最多count个元素
+# Count<0,从右到左，删除最多count绝对值个元素
+# Count=0,删除所有
+# 修改
+lset <key> <index> <value>
+```
+
+### set
+```shell
+sadd <key> <e>                              # 添加值
+srem <key> <e>                              # 删除
+scard <key>                                 # 元素个数
+sismember <k> <e>                           # 在集合中则返回1，否则返回0
+srandmember <k> [count]                     # 随机返回指定个数,count可不写，默认为1
+spop <k> [count]                            # 随机返回元素
+```
 
 ### zset 
 有序集合,在集合的基础上进行延伸有序,K是V的一个键值对,键值对的分数score:V,默认从小到大
@@ -35,6 +98,7 @@ zcount <key> <startScore> <endScore>          # 获取指定分值区间的值�
 zrank <key> <member>                          # 获取该值的索引下标
 zscore <key> <member>                         # 获取该值对应分数
 ```
+
 
 ## redis geo地理位置相关指令(实现附近的人)
 

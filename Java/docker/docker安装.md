@@ -122,7 +122,7 @@ docker pull mysql:8.0.15qaz@WSX
 ```
 - 运行容器
 ```
-docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qaz@WSX -v /mysql/conf/my.cnf:/etc/my .cnf -d mysql:8.0.15 --default-authentication-plugin=mysql_native_password 
+docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qaz@WSX -v /mysql/conf/my.cnf:/etc/my.cnf -d mysql:8.0.15 --default-authentication-plugin=mysql_native_password 
 ```
 >
 
