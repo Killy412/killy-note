@@ -69,6 +69,9 @@ ENTRYPOINT ["java","-jar","app.jar"]
 - maven插件构建镜像
 
 ```shell
+# 本地多模块情况先执行父类打包
+mvn package install
+# 发布镜像
 mvn package docker:build
 ```
 - 查看服务器镜像
@@ -79,6 +82,6 @@ docker images
 - 运行容器
 
 ```shell
-docker run -d --name him-api -p 9000:9000 -p 9001:9001 springboot/him-api:latest
+docker run -d --name him-api -p 9000:9000 -e "SPRING_PROFILES_ACTIVE=dev" springboot/him-api:latest
 ```
 

@@ -15,7 +15,17 @@ curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2
 ```
 
 ```shell
-{"registry-mirrors":["https://docker.mirrors.ustc.edu.cn"]}BashCC++C#CSSGoHaskellHTMLJavaJavaScriptJSONJSXkotlinPHPPowerShellPythonRubyRustSQLSwiftTypeScriptXML
+{"registry-mirrors":["https://docker.mirrors.ustc.edu.cn"]}
+BashCC++C#CSSGoHaskellHTMLJavaJavaScriptJSONJSXkotlinPHPPowerShellPythonRubyRustSQLSwiftTypeScriptXML
+
+## 新方法 编辑 /etc/docker/daemon.json
+{
+  "registry-mirrors": [
+    "https://dockerhub.azk8s.cn",
+    "https://reg-mirror.qiniu.com",
+    "https://registry.docker-cn.com"
+  ]
+}
 ```
 
 编辑/etc/docker/daemon.json文件，把结尾的逗号去掉
