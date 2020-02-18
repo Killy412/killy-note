@@ -61,7 +61,9 @@ ADD ./him-api-1.0.jar app.jar
 #声明运行时容器提供服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务
 EXPOSE 9000
 EXPOSE 9001
-
+# 设置东八区时区
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #指定容器启动程序及参数   <ENTRYPOINT> "<CMD>"
 ENTRYPOINT ["java","-jar","app.jar"]
 ```
@@ -82,6 +84,6 @@ docker images
 - 运行容器
 
 ```shell
-docker run -d --name him-api -p 9000:9000 -e "SPRING_PROFILES_ACTIVE=dev" springboot/him-api:latest
+docker run -d --name him-api -p 9000:9000 --restart=always -e "SPRING_PROFILES_ACTIVE=dev" springboot/him-api:latest
 ```
 
