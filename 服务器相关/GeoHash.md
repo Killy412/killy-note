@@ -8,4 +8,4 @@
 
 ###### 经纬度和GeoHash距离
 
-![image-20200226142651580](..\img\image-20200226142651580.png)
+![image-20200226142651580](/Killy412/killy-note/img/image-20200226142651580.png)
