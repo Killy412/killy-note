@@ -62,3 +62,9 @@ private RedisTemplate<String, Object> createRedisTemplate() {
     }
 ```
 
+### 要在启动类去掉redis自动配置,否则上线会有问题
+
+```java
+@SpringBootApplication(exclude = RedisAutoConfiguration.class)
+```
+
