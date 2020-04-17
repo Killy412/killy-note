@@ -1,5 +1,6 @@
-# centos安装maven
+# maven
 
+### maven安装
 1. 下载maven包
 
 ```
@@ -29,3 +30,12 @@ wget http://mirror.bit.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3
     ```shell
     source /etc/profile
     ```
+
+### maven打包
+- 多模块pom,指定模块打包
+	+ -am：如果 pl 参数存在，就同时构建 pl 参数所列模块依赖的其他模块
+	+ -amd：如果 pl 参数存在，就同时构建依赖于 pl 参数所列模块的其他模块
+	+ -pl：构建指定模块，多个模块用逗号（,）分隔
+	```shell
+	mvn clean package -pl [pom-name] -am -Dmaven.test.skip=true -P pro
+	```

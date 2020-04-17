@@ -11,8 +11,8 @@
   - key:键
   - cacheManager: 缓存管理器
   - sync:是否使用异步模式
-  - condition: 符合条件则缓存,对参数进行判断
-  - unless: 符合条件则不缓存,对result进行判断
+  - condition: 符合条件则缓存,对参数进行判断(调用方法之前和之后都会判断)
+  - unless: 符合条件则不缓存,对result进行判断(方法执行后判断)
 - @CachePut: 执行之后存入缓存,一般用在新增的方法上
   - value/cacheName
   - key:键

@@ -87,3 +87,9 @@ docker images
 docker run -d --name him-api -p 9000:9000 --restart=always -e "SPRING_PROFILES_ACTIVE=dev" springboot/him-api:latest
 ```
 
+- 项目编译为docker镜像,首先把jar包和Dockerfile放在目录中,然后在目录下执行命令:
+
+```
+docker build -t moqu-gateway:1.0 .
+```
+

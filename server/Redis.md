@@ -45,7 +45,7 @@ hvals <key>                                  # 获取所有value
 hgetall <key>
 hstrlen <key> <field>                        # 获取字段长度
 hexists <k> <f>                              # 判断是否有某field
-hincrbyfloat <k> <f> increment               # key指定字段增加数值(float)
+hincrbyfloat <k> <f> <increment>             # key指定字段增加数值(float)
 hincrby <k> <f> <increment>                  # key指定字段增加数值(int)
 hscan <k> <cursor>                           # 迭代hash表中的值
 ```

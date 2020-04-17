@@ -20,3 +20,9 @@ Docker的镜像文件，相当于是一个只读层，不能往里面写入数�
 - 文件系统隔离
 - 资源隔离
 - 日志记录
+
+#### docker网络模式
+- Bridge模式:docker进程启动时,会在主机上创建一个docker0的虚拟网桥,docker会连接网桥
+- Host模式:不会创建一个network namespace,和宿主机公用一个
+- Container模式:指定新创建的容器和已经存在的一个容器共享一个network
+- None模式:拥有自己的network namespace,没有网卡ip路由等信息,需要自己配置
