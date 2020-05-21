@@ -1,4 +1,4 @@
-# docker安装
+# docker常用
 
 ##  安装Docker虚拟机
 
@@ -87,6 +87,8 @@ docker update --restart=always 容器id  更新启动方式
 docker logs -f -t --tail 行数 容器ID  实时查看docker日志
 docker inspect [容器id]  # 查看容器信息
 docker volume prune  # 清理多余的数据卷
+# 拷贝docker日志
+docker container cp [容器id]:[日志路径] [拷贝的目标路径]
 ```
 
 - 进入容器
@@ -186,6 +188,12 @@ sysctl -p
 
 ```shell
 ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.7.0/elasticsearch-analysis-ik-6.7.0.zip
+```
+
+## 删除none镜像
+```shell
+docker images|grep none|awk '{print $3}'|xargs docker rmi 
+docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
 ```
 
 # **服务器重启,使用容器重启命令**

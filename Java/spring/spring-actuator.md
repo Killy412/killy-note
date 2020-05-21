@@ -12,7 +12,7 @@
 | configprops:描述配置属性(包含默认值)如何注入Bean | Yes                                                 | No    |
 | env:获取全部环境属性         | Yes                                                 | No    |
 | flyway:显示数据库迁移路径，如果有的话                                       | Yes                                                 | No    |
-| health(显示应用的`健康信息`（当使用一个未认证连接访问时显示一个简单)的’status’，使用认证连接访问则显示全部信息详情） | Yes | `Yes`|
+| health(显示应用的`健康信息`（当使用一个未认证连接访问时显示一个简单)的’status’，使用认证连接访问则显示全部信息详情） | Yes | Yes |
 | heapdump:dump 一份应用的 JVM 堆信息                                  | N/A                                                 | No    |
 | httptrace:显示HTTP足迹，最近100个HTTP request/repsponse              | Yes                                                 | No    |
 | info:显示任意的`应用信息`                                             | Yes                                                 | `Yes` |
