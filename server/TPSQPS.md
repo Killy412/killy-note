@@ -1,5 +1,5 @@
 # QPS、TPS、PV、UV、GMV、IP、RPS
-- TPS
+- TPS(Transaction pre second)
 每秒事务数
 - QPS
 每秒查询数,每秒响应请求数就是最大吞吐能力

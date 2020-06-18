@@ -89,6 +89,10 @@ docker inspect [容器id]  # 查看容器信息
 docker volume prune  # 清理多余的数据卷
 # 拷贝docker日志
 docker container cp [容器id]:[日志路径] [拷贝的目标路径]
+# docker运行日志路径
+docker inspect --format='{{.LogPath}}' [容器id]
+# 日志copy
+docker logs <options> [容器id] >& logs/myFile.log
 ```
 
 - 进入容器
