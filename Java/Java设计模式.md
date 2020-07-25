@@ -9,6 +9,33 @@
 ## 创建型模式
 > 实现对象的实例化,提高创建对象代码的灵活性和重用性
 ### 单例模式
+
+静态内部类懒汉式单例模式
+
+```java
+public class Signleton{
+    private static class SignletonHonder{
+        public static Signleton sign=new Signleton();
+    }
+    
+    private Signleton{}
+    
+    public static Signleton getInstance(){
+        return SignletonHonder.sign;
+    }
+}
+```
+
+1. **静态内部类方式如何实现懒加载**
+
+   Java类的加载过程包括:加载-验证-准备-解析-初始化.初始化方法执行类的clint方法(clint=class+initalize),包括为类的静态变量赋初始值和执行静态块的代码.但不会立即加载内部类,内部类在使用时才会加载.  当访问一个类的静态字段时,如果该类没有初始化,会立即去初始化.所以实现了懒加载.
+
+2. **静态内部类怎么保证线程安全**
+
+   虚拟机在加载类的clint方法时,考虑了线程安全,会保证在clint在多线程中被正确的加载/同步.即使多线程同时初始化一个类,一次也只有一个线程可以执行clint方法,其他线程需要阻塞等待,实现了线程安全.
+
+   **一般的建议:** <font color="red">对于构建不复杂,加载完会立即使用的单例对象,使用饿汉式.对于构建时间较长,并不是所有使用此类都用用到的单例对象,使用懒汉式.</font>
+
 ### 工厂模式
 
 > 定义一个用于创建产品的接口，由子类决定生产什么产品。

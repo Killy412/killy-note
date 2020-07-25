@@ -68,3 +68,29 @@ SHOW PROCEDURE STATUS;
 - 数据库增删改操作默认增加排他锁
 
 - 乐观锁
+
+
+### 索引
+
+#### 查询索引 explain关键词
+- type列的值
+  - all:即全表扫描，意味着MySQL需要从头到尾去查找所需要的行。这种情况下需要增加索引来进行优化.
+  - index:扫描全表索引，通常比All快一些
+  - **range** :范围扫描通常出现在in(), between,>,<,>=等操作中。使用一个索引来检索给定范围的行.
+  - **ref** :相比eq_ref，不适用唯一索引，而是使用普通索引或者唯一索引的部分前缀，索引要和某个值相比较，可能会找到多个符合条件的行。
+  - **eq_ref** :primay key或 unique key索引的所有部分被连接使用，最多只会返回一条符合条件的记录。这可能是const之外最好的联接类型，简单的select查询不会出现这种type。
+  - **const** :mysql能对查询的某部分进行优化并将其转换成一个常量（可看成是show warnings的结果）。用于primay key或unique key的所有列与常数比较时，所以表最多有一个匹配行，读取1次，速读较快。system 是const的特例，表中只有一行元素匹配时为system。
+
+
+
+### 新增数据,已经存在就更新
+
+```mysql
+-- 已经存在数据就忽略
+insert ignore into [table] ([col],[col]) values ([value],[value]);
+-- 插入数据,存在就更新,不存在新增
+insert into [table] ([col]...) values ([values]...) on duplicate key update [col]=[value];
+-- replace可以实现和上面一样的效果,前提必须有唯一索引,具有原子性,返回1,说明没有重复操作,返回2说明先删除后新增
+replace into [table] ([col]..) values([val]...)
+```
+

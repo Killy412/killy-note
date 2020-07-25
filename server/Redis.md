@@ -19,6 +19,9 @@ randomkey                                    # 随机返回一个key
 
 ## 常用数据类型
 ### string
+
+字符串,可变的字节数组,最大长度为512M,小于1M,扩容是加倍现有空间,大于1M,每次扩容1M
+
 ```shell
 set <key> <value>                            # 设置键值对
 get <key>                                    # 获取
@@ -30,9 +33,22 @@ strlen <key>                                 # 对应值的长度
 del <key>                                    # 删除对应的键
 type <key>                                   # 查看数据结构类型
 rename <key> <newkey>                        # 重命名 newkey不存在时才会重命名
+getrange <key> <start> <end>                 # 获取子串,指定位置开始和结束
+append <key>  <value>                        # 追加字串
+incrby                                       # +
+decrby                                       # -
+incr                                         # +1
+decr                                         # -1
 ```
 
 ### hash
+
+hash,使用二维结构,第一维是数组,第二维是链表.hash内容的key和value放在链表中,数组保存的是链表的头指针.通过key查找元素时,先计算key的hashcode,再根据hashcode值对数组取模运算,定位到对应的链表,再对链表遍历进行取值.链表的作用就是用来将产生**hash碰撞**的元素串起来
+
+##### 扩容
+
+当hash比较拥挤时(hash碰撞比较频繁),就要进行扩容. 会申请两倍旧数组大小,然后将所有链表重新分配到新的数组中.
+
 ```shell
 hset <key> <field> <value>                   # 设置值
 hget <key> <field>                           # 获取值
@@ -51,6 +67,9 @@ hscan <k> <cursor>                           # 迭代hash表中的值
 ```
 
 ### list
+
+列表,存储结构为链表.双向链表,首尾插入删除效率高.下表可以为负数.
+
 ```shell
 # 新增
 rpush <key> <value> [value...]                # 右边插入元素
@@ -73,6 +92,9 @@ lset <key> <index> <value>
 ```
 
 ### set
+
+集合:内部使用的hash结构,所有value指向同一个內部值
+
 ```shell
 sadd <key> <e>                              # 添加值
 srem <key> <e>                              # 删除

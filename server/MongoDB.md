@@ -91,12 +91,22 @@ db.col.find(
 
 | 操作       | 格式       | 范例                                      | RDBMS中的类似语句     |
 | :--------- | :--------- | :---------------------------------------- | :-------------------- |
-| 等于       | {:}        | db.col.find({"by":"菜鸟教程"}).pretty()   | where by = '菜鸟教程' |
-| 小于       | {:{$lt:}}  | db.col.find({"likes":{$lt:50}}).pretty()  | where likes < 50      |
-| 小于或等于 | {:{$lte:}} | db.col.find({"likes":{$lte:50}}).pretty() | where likes <= 50     |
-| 大于       | {:{$gt:}}  | db.col.find({"likes":{$gt:50}}).pretty()  | where likes > 50      |
-| 大于或等于 | {:{$gte:}} | db.col.find({"likes":{$gte:50}}).pretty() | where likes >= 50     |
-| 不等于     | {:{$ne:}}  | db.col.find({"likes":{$ne:50}}).pretty()  | where likes != 50     |
+| 等于       | {:}        | db.collName.find({"by":"菜鸟教程"}).pretty() | where by = '菜鸟教程' |
+| 小于       | {:{$lt:}}  | db.collName.find({"likes":{$lt:50}}).pretty() | where likes < 50      |
+| 小于或等于 | {:{$lte:}} | db.collName.find({"likes":{$lte:50}}).pretty() | where likes <= 50     |
+| 大于       | {:{$gt:}}  | db.collName.find({"likes":{$gt:50}}).pretty() | where likes > 50      |
+| 大于或等于 | {:{$gte:}} | db.collName.find({"likes":{$gte:50}}).pretty() | where likes >= 50     |
+| 不等于     | {:{$ne:}}  | db.collName.find({"likes":{$ne:50}}).pretty() | where likes != 50     |
+| 模糊查询 | | db.collName.find({fieldName:{$regex:/joe/}}) | where name like ’%joe%’ |
+| 正则表达式 |  | db.collName.find({fieldName:{$regex:/joe/,$options:""}}) | |
+
+$regex操作符的使用
+$regex操作符中的option选项可以改变正则匹配的默认行为，它包括i, m, x以及S四个选项，其含义如下
+- i 忽略大小写，{<field>{$regex/pattern/i}}，设置i选项后，模式中的字母会进行大小写不敏感匹配。
+- m 多行匹配模式，{<field>{$regex/pattern/,$options:'m'}，m选项会更改^和$元字符的默认行为，分别使用与行的开头和结尾匹配，而不是与输入字符串的开头和结尾匹配。
+- x 忽略非转义的空白字符，{<field>:{$regex:/pattern/,$options:'m'}，设置x选项后，正则表达式中的非转义的空白字符将被忽略，同时井号(#)被解释为注释的开头注，只能显式位于option选项中。
+- s 单行匹配模式{<field>:{$regex:/pattern/,$options:'s'}，设置s选项后，会改变模式中的点号(.)元字符的默认行为，它会匹配所有字符，包括换行符(\n)，只能显式位于option选项中。
+
 
 #### 创建索引参数
 

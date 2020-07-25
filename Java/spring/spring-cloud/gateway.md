@@ -27,8 +27,8 @@ spring:
 
 在上面的配置文件，配置了 redis的信息，并配置了RequestRateLimiter的限流过滤器，该过滤器需要配置三个参数：
 
-- burstCapacity：令牌桶总容量。
-- replenishRate：令牌桶每秒填充平均速率。
+- burstCapacity：令牌桶总容量。每秒最大处理的请求数量
+- replenishRate：令牌桶每秒填充平均速率。每秒允许处理的请求数量
 - key-resolver：用于限流的键的解析器的 Bean 对象的名字。它使用 SpEL 表达式根据#{@beanName}从 Spring 容器中获取 Bean 对象。
 
 ###### IP限流
@@ -63,3 +63,4 @@ KeyResolver apiKeyResolver() {
     return exchange -> Mono.just(exchange.getRequest().getPath().value());
 }
 ```
+

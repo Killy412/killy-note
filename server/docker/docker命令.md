@@ -103,8 +103,7 @@ docker exec -it [容器id] bash
 - 导出容器
 
 ```shell
- docker export [容器ID] > [本地文件.tar]   
- 
+docker export [容器ID] > [本地文件.tar]
 ```
 
 - 登录账号
@@ -126,7 +125,7 @@ docker pull daocloud.io/library/redis:5.0.5
 - 运行容器
 
 ```shell
-docker run -p 6379:6379 --name redis -v /redis/redis.conf:/etc/redis/redis.config -v /redis/data:/data -d redis:5.0.5 redis-server --appendonly yes
+docker run -p 6379:6379 --name redis -v /redis/redis.conf:/etc/redis/redis.config -v /redis/data:/data -d redis:5.0.5 redis-server --appendonly yes  --requirepass "1qaz@WSX" # 设定密码
 ```
 
 ## docker 安装mysql
@@ -148,14 +147,16 @@ docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qa
 ## docker安装rabbitmq
 - 运行容器
 ```shell
-docker run -d --hostname rabbit-host --name rabbitmq --restart=always -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1qaz@WSX
--p 15672:15672 -p 5672:5672 rabbitmq:3.7.15-management
+docker run -d --hostname rabbit-host --name rabbitmq --restart=always -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1qaz@WSX -p 15672:15672 -p 5672:5672 rabbitmq:3.7.15-management
 ```
+- --hostname：指定容器主机名称
+- --name:指定容器名称
+- -p:将mq端口号映射到本地
 
 1. 进入容器 docker exec -it xxx bash
 2. 添加用户
 ```cmd
-rabbitmqctl add_user root 123456 
+rabbitmqctl add_user root 123456
 ```
 3. 赋予权限
 ```shell
