@@ -94,3 +94,25 @@ insert into [table] ([col]...) values ([values]...) on duplicate key update [col
 replace into [table] ([col]..) values([val]...)
 ```
 
+### 死锁查看相关sql
+
+```mysql
+# 当前事物
+select * from information_schema.INNODB_TRX;
+
+# 获取死锁日志
+show engine innodb status;
+
+# 事物隔离级别
+select @@tx_isolation;
+
+# 查询是否锁表
+show OPEN TABLES where In_use > 0;
+
+# 查询进程
+show processlist
+
+# 在 MySQL 8.0 中，增加了一个新的动态变量：innodb_deadlock_detect，可以用于控制 InnoDB 是否执行死锁检测。该参数的默认值为 ON，即打开死锁检测。
+show variables like 'innodb_deadlock_detect';
+```
+
