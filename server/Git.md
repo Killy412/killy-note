@@ -107,3 +107,53 @@ git merge --abort   #撤销合并
 ```shell
 
 ```
+
+#### pull request
+
+1. fork项目,克隆自己的仓库到本地
+
+2. 获取最新代码
+
+   ```shell
+   # 在本地仓库添加源仓库地址
+   git remote add upstream <原仓库地址>
+   # 更新代码
+   git pull upstream master
+   
+   ```
+
+   fork来的master主分支作为跟踪源仓库代码.
+
+3. 创建分支,贡献自己的代码.
+
+   ```shell
+   # 创建分支
+   git checkout -b <分支名>
+   # 提交代码
+   git commit -a -m ""
+   ```
+
+4. 合并修改
+
+   ```shell
+   # 切换master分支
+   git checkout master
+   # 更新远程代码
+   git pull upstream master
+   # 切回到分支
+   git checkout <分支名>
+   # 合并分支
+   git rebase master
+   # 提交代码到自己的远程仓库
+   git push origin <分支名>
+   ```
+
+5. Pull Request
+
+   ```
+   在自己的代码仓库,找到分支,点击new pull request 添加注释提交
+   或者
+   切换到 branch1 分支的代码仓库，点击 Compare & pull request 按钮，添加注释后提交。
+   ```
+
+   
