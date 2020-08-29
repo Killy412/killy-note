@@ -52,6 +52,7 @@
 流操作类型分为三种,
 
 1. 创建流
+   - String.of(T..t)
 2. 修改流(中间操作)
    - **skip(int)** 根据参数丢弃指定数量的流元素
    - **peek()**  无修改的查看流元素
@@ -98,7 +99,7 @@
      - min(Comparator)  根据所传Comparator决定的最小元素
      
    - 数字流信息
-   
+
      - **average()** 元素平均值
      - **max()和min()** 无需Comparator
      - **sum()** 元素和

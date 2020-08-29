@@ -96,9 +96,12 @@ db.col.find(
 | 小于或等于 | {:{$lte:}} | db.collName.find({"likes":{$lte:50}}).pretty() | where likes <= 50     |
 | 大于       | {:{$gt:}}  | db.collName.find({"likes":{$gt:50}}).pretty() | where likes > 50      |
 | 大于或等于 | {:{$gte:}} | db.collName.find({"likes":{$gte:50}}).pretty() | where likes >= 50     |
+| in或not in |  | db.collName.find({'age' : {'$in' : [10, 22, 26]}}) | where age in (10, 22, 26) |
 | 不等于     | {:{$ne:}}  | db.collName.find({"likes":{$ne:50}}).pretty() | where likes != 50     |
 | 模糊查询 | | db.collName.find({fieldName:{$regex:/joe/}}) | where name like ’%joe%’ |
 | 正则表达式 |  | db.collName.find({fieldName:{$regex:/joe/,$options:""}}) | |
+
+
 
 $regex操作符的使用
 $regex操作符中的option选项可以改变正则匹配的默认行为，它包括i, m, x以及S四个选项，其含义如下
