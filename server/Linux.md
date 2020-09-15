@@ -24,8 +24,9 @@ hard nofile 1000000 # 表示硬性极限
 ```
 
 ## 查看CPU核数相关信息
+
 ```shell
-查看CPU信息（型号）
+# 查看CPU信息（型号）
 [root@AAA ~]# cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
      24         Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
  
@@ -41,3 +42,22 @@ cpu cores    : 6
 [root@AAA ~]# cat /proc/cpuinfo| grep "processor"| wc -l
 
 ```
+
+## 命令
+
+```shell
+# 查看进程中子线程
+top -Hp [pid]
+# 查看磁盘情况
+df -hl
+# 搜索文本 grep命令相关
+grep [-acinv] [--color=auto] '搜寻字符串' filename
+选项与参数：
+-a:将 binary 文件以 text 文件的方式搜寻数据
+-c:计算找到 '搜寻字符串' 的次数
+-i:忽略大小写的不同，所以大小写视为相同
+-n:顺便输出行号
+-v:反向选择，亦即显示出没有 '搜寻字符串' 内容的那一行！
+--color=auto:可以将找到的关键词部分加上颜色的显示喔！
+```
+

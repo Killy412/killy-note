@@ -60,9 +60,11 @@ CALL test_insert();
 drop procedure test_insert;
 #查看存储过程
 SHOW PROCEDURE STATUS;
+
 ```
 
 ### 锁
+
 - 相关名词
   - 表级锁:MyIsam是表级锁,更新一条记录要锁住整个表,性能较低,并发不高,不存在死锁问题
   - 页级锁
@@ -85,8 +87,17 @@ SHOW PROCEDURE STATUS;
 
 - 乐观锁
 
-
 ### 索引
+
+#### 索引类型
+
+- B-tree索引: **适合查找范围数据或者键前缀查询**
+  - 全值匹配
+  - 匹配最左前缀
+  - 匹配列前缀
+  - 匹配范围值
+- hash索引: **只存储hash值和行指针,不存储值.不支持范围查找数据**
+  - 支持等值比较查询
 
 #### 查询索引 explain关键词
 - type列的值
@@ -131,4 +142,11 @@ show processlist
 # 在 MySQL 8.0 中，增加了一个新的动态变量：innodb_deadlock_detect，可以用于控制 InnoDB 是否执行死锁检测。该参数的默认值为 ON，即打开死锁检测。
 show variables like 'innodb_deadlock_detect';
 ```
+
+### 隔离级别
+
+- readuncommitted:读未提交,产生脏读
+- readcommitted: 不可重复读,一个事务中多次读取的数据可能不一致
+- repeatable read: 可重复读,解决了脏读/不可重复读的问题,一个事物中多次读取的数据是一致的
+- serializable: 串行化
 
