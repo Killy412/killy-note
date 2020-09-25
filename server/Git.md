@@ -30,7 +30,8 @@ git branch        查看分支
 git branch xxx      创建本地分支
 git checkout xx     切换本地分支
 git checkout -b xxx   创建+切换分支
-git checkout -b 本地分支x origin/远程分支x  拉取远程分支
+git fetch origin <分支名>     # 拉取远程分支到本地
+git checkout -b 本地分支x origin/远程分支x  # 拉取远程分支
 git merge  xxx     合并某分支到当前分支
 git branch -d xxx    删除本地分支
 git branch -d -r origin/branchname 删除远程分支
