@@ -25,6 +25,10 @@ $ vue init webpack my-project
 $ cd my-project
 $ cnpm install
 $ cnpm run dev
+
+# 升级nodejs
+npm install -g n
+n stable 
 ```
 
 ### 目录结构

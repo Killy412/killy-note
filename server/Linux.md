@@ -61,3 +61,10 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
+## 文件结构
+
+系统安装软件一般在/usr/share，
+可执行的文件在/usr/bin，
+配置文件可能安装到了/etc下等。
+文档一般在 /usr/share
+lib文件 /usr/lib
