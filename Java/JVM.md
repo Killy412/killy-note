@@ -37,6 +37,8 @@
 >   
 > - <font color="red">**直接内存: java14新加入的NIO,可以直接调用native方法分配堆外内存**</font>
 >   
+> - <font color="red">**运行时常量池:是方法区的一部分**</font>
+>   
 >   
 
 - **堆栈区别**
@@ -80,6 +82,26 @@ java -XX:+PrintFlagsFinal -version | grep HeapSize
 # 开启内存日志
 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps
 ```
+
+### 对象内存布局
+
+> 对象在内存中分为三个部分
+>
+> - 对象头(Mark word): 存储对象类型的指针,锁标识位,哈希码,GC年龄,线程持有的锁,偏向线程ID
+> - 实例数据: 
+> - 对其填充: 对象的大小必须是8字节的整倍数
+
+##### 对象的访问定位
+
+- 句柄方式
+
+  > 堆中存放一个句柄池,栈中reference变量指向句柄池中的句柄,句柄存放指向对象实例数据和对象类型信息的内存地址.
+
+- 直接访问(hotspot主要使用这种方式访问)
+
+  > 直接访问,reference变量直接指向堆中对象实例地址
+
+
 
 ### 数据存储
 

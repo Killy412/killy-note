@@ -63,6 +63,87 @@ SHOW PROCEDURE STATUS;
 
 ```
 
+### 隔离级别
+
+- readuncommitted(RU):读未提交,产生脏读
+
+  > RU是对数据记录加锁,不是对事物加锁
+
+- readcommitted(RC): 不可重复读,一个事务中多次读取的数据可能不一致
+
+  > RC每次执行sql都会生成一个read view,每次读取的是不同的.
+
+- repeatable read(RR): 可重复读,解决了脏读/不可重复读的问题,一个事物中多次读取的数据是一致的.
+
+  > 使用MVCC(多版本并发控制协议)保证RR的隔离正确性,是不上锁的.
+
+- serializable: 串行化
+
+##### MVCC详解
+
+> MVCC是行级锁的变种,读的时候避免加锁操作.多个版本的数据共存,主要依赖数据的隐藏列和undo log实现.
+>
+> 隐藏列的数据包括版本号,删除时间,指向undo log的指针等.
+>
+> 通过next-keylock实现RR级别的避免幻读. next-keylock相当于实现record lock(记录锁)和gap lock(间隙锁),特点是不仅会锁住数据记录,也会锁住一个范围(gap lock的功能).
+
+### 存储引擎两种事物日志
+
+- redo log(重做日志): 保证事物的持久性
+  InnoDB支持事物,依赖undo log, undo log属于逻辑日志,记录的sql执行的相关信息.
+
+  > 当事物对数据库做了修改,InnoDB会生成对应的undo log;
+  >
+  > 事物执行失败或者调用了rollback,innodb会根据undo log做与之前相反的操作 : 对于insert 回滚时执行delete;对于delete,回滚是执行insert;对于update,回滚时执行相反的update;
+  >
+  > 当事物执行update时,在生成的undo log中包含被修改的主键,修改的列,列的修改前后值等信息.
+
+- undo log(回滚日志): 事物原子性和隔离性的基础
+
+  InnoDB作为存储引擎,数据都是存放在磁盘中,如果每次读取数据都读取磁盘,速度会很慢. InnoDB提供了缓存(Buffer Pool) 加快读取速度.Buffer Pool中保存对磁盘中部分数据页的映射.
+
+  > 当读取数据时,首先从Buffer Pool中查找,如果没有的话,再去磁盘中读取,会再放入Buffer Pool中.
+  >
+  > 向数据库写入数据时,首先写入Buffer Pool中. Buffer Pool中修改的数据会定期刷入磁盘中(这一过程称为刷脏).
+  >
+  > redo log主要为了解决mysql宕机,buffer pool中的数据还没有刷入磁盘中. 向数据库写入数据时,还会再redo log中记录这次操作.事物提交时,调用fsync接口对redo log进行刷盘.如果mysql宕机,重启时,会读取redo log中的数据进行恢复.
+  >
+  > redo log采用的是WAL(write ahead logging) 预写式日志,所有修改先写入日志,再更新到buffer pool.
+
+redo log 也需要在事务提交时将日志写入磁盘，为什么它比直接将 Buffer Pool 中修改的数据写入磁盘(即刷脏)要快呢?
+
+主要有以下两方面的原因：
+
+- 刷脏是随机 IO，因为每次修改的数据位置随机，但写 redo log 是追加操作，属于顺序 IO。
+- 刷脏是以数据页(Page)为单位的，MySQL 默认页大小是 16KB，一个 Page 上一个小修改都要整页写入;而 redo log 中只包含真正需要写入的部分，无效 IO 大大减少。
+
+### redo log 与 binlog
+
+在 MySQL 中还存在 binlog(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的。
+
+作用不同：
+
+- redo log 是用于 crash recovery 的，保证 MySQL 宕机也不会影响持久性;
+- binlog 是用于 point-in-time recovery 的，保证服务器可以基于时间点恢复数据，此外 binlog 还用于主从复制。
+
+层次不同：
+
+- redo log 是 InnoDB 存储引擎实现的，
+- 而 binlog 是 MySQL 的服务器层实现的，同时支持 InnoDB 和其他存储引擎。
+
+内容不同：
+
+- redo log 是物理日志，内容基于磁盘的 Page。
+- binlog 是逻辑日志，内容是一条条 sql。
+
+写入时机不同：
+
+- redo log 的写入时机相对多元。前面曾提到，当事务提交时会调用 fsync 对 redo log 进行刷盘;这是默认情况下的策略，修改 innodb_flush_log_at_trx_commit 参数可以改变该策略，但事务的持久性将无法保证。
+
+除了事务提交时，还有其他刷盘时机：如 master thread 每秒刷盘一次 redo log 等，这样的好处是不一定要等到 commit 时刷盘，commit 速度大大加快。
+
+- binlog 在事务提交时写入。
+
 ### 锁
 
 - 相关名词
@@ -143,10 +224,5 @@ show processlist
 show variables like 'innodb_deadlock_detect';
 ```
 
-### 隔离级别
 
-- readuncommitted:读未提交,产生脏读
-- readcommitted: 不可重复读,一个事务中多次读取的数据可能不一致
-- repeatable read: 可重复读,解决了脏读/不可重复读的问题,一个事物中多次读取的数据是一致的
-- serializable: 串行化
 
