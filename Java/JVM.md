@@ -217,7 +217,7 @@ option参数如下
 
 ##### 虚拟机堆转储快照分析工具 jhat 配合dump下来的快照使用
 
-##### Java堆栈追踪工具 jstack
+##### Java堆栈追踪工具 ,查看堆栈信息    jstack
 
 jstack [option] vmid
 

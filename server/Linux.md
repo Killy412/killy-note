@@ -45,11 +45,15 @@ cpu cores    : 6
 
 ## 命令
 
-```shell
-# 查看进程中子线程
+```bash
+# 查看某个进程的子进程
+pstree -p [pid]
+# 查看进程中子线程的资源占用情况
 top -Hp [pid]
+top -n 1 -H -p [pid]
 # 查看磁盘情况
 df -hl
+
 # 搜索文本 grep命令相关
 grep [-acinv] [--color=auto] '搜寻字符串' filename
 选项与参数：
