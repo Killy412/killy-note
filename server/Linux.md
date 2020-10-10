@@ -72,3 +72,7 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 配置文件可能安装到了/etc下等。
 文档一般在 /usr/share
 lib文件 /usr/lib
+
+### 正在运行的前台任务改为后台任务
+
+首先在前台任务按　Ctrl+Z ,然后执行　```bg```命令
