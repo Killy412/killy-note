@@ -23,6 +23,13 @@ Docker的镜像文件，相当于是一个只读层，不能往里面写入数�
 
 #### docker网络模式
 - Bridge模式:docker进程启动时,会在主机上创建一个docker0的虚拟网桥,docker会连接网桥
-- Host模式:不会创建一个network namespace,和宿主机公用一个
+- Host模式:不会创建一个network namespace,和宿主机共用一个
 - Container模式:指定新创建的容器和已经存在的一个容器共享一个network
 - None模式:拥有自己的network namespace,没有网卡ip路由等信息,需要自己配置
+
+> 关于上述提到的三个网络解释如下：
+>
+> - Host：相当于Vmware中的桥接模式，与宿主机在同一个网络中，但没有独立的IP地址。众所周知，Docker使用了Linux的Namespaces技术来进行资源隔离，如PID Namespace隔离进程，Mount Namespace隔离文件系统，Network Namespace隔离网络等。一个Network Namespace提供了一份独立的网络环境，包括网卡、路由、Iptable规则等都与其他的Network Namespace隔离。一个Docker容器一般会分配一个独立的Network Namespace。但如果启动容器的时候使用host模式，那么这个容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。基于Host模式启动的容器，在容器内执行ifconfig时，看到的都是宿主机上的信息。该模式不够灵活，容易出现端口冲突问题。
+> - None：该模式将容器放置在它自己的网络栈中，但是并不进行任何配置。实际上，该模式关闭了容器的网络功能，类似于会换地址，在以下两种情况下是有用的：容器并不需要网络（例如只需要写磁盘卷的批处理任务）。
+> - overlay：顾名思义：覆盖，但它又不是覆盖，它的作用就是在容器原有的网络基础之上，再添加一块网卡，并为其分配一个IP地址，可以将所有的docker容器关联到同一个局域网中，适用于容器与容器是跨主机进行通信的场景。
+> - Bridge：相当于Vmware中的NAT模式，容器使用独立的network Namespace，并且连接到docker0虚拟网卡（默认模式）。通过docker网桥以及IPtables nat表配置与宿主机通信；Bridge模式是Docker默认的网络设置，此模式会为每一个容器分配一个Network nameSpace、设置IP等，并将一个主机上的Docker容器连接到一个虚拟网桥docker0上。

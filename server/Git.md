@@ -26,18 +26,24 @@ git remote add 本地库名字 远程仓库路径
 
 ##### 分支
 ``` shell
-git branch        查看分支  
-git branch xxx      创建本地分支
-git checkout xx     切换本地分支
+git branch            查看分支  
+git branch xxx        创建本地分支
+git checkout xx       切换本地分支
 git checkout -b xxx   创建+切换分支
 git fetch origin <分支名>     # 拉取远程分支到本地
 git checkout -b 本地分支x origin/远程分支x  # 拉取远程分支
+git tag         # 查看所有tag
+git checkout -b 本地分支x tag名  # 切换到某次tag处代码
 git merge  xxx     合并某分支到当前分支
 git branch -d xxx    删除本地分支
 git branch -d -r origin/branchname 删除远程分支
 git branch -m|-M oldbranch newbranch 重命名分支 如果new名字已经存在 需要使用-M强制重命名
 git pull origin xxx 拉取分支上的代码
 git br -m [old_br] [new_br]  分支重命名
+# 将其他分支的修改移到另一分支
+git stash          # 在master分支中：
+git checkout dev   # 切换到dev分支
+git stash apply    # 将修改同步到dev分支
 ```
 
 推送本地分支到远程分支
@@ -100,7 +106,7 @@ git reset --hard HEAD~1  # 重置之前的提交
 git revert 711bb0b  # 撤销某次修改
 
 git merge --abort   #撤销合并
-
+git push origin master --force #强制提交
 ```
 
 4. 远程仓库

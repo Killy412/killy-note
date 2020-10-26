@@ -69,9 +69,11 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 
 系统安装软件一般在/usr/share，
 可执行的文件在/usr/bin，
-配置文件可能安装到了/etc下等。
+配置文件可能安装到了/etc下等
+	/etc/systemd/system/  # 用户自定义启动文件
 文档一般在 /usr/share
 lib文件 /usr/lib
+	/usr/lib/systemd/system/  # 系统启动文件
 
 ### 正在运行的前台任务改为后台任务
 
@@ -84,3 +86,10 @@ lib文件 /usr/lib
 chmod a+x <文件名>
 ```
 
+#### 查询子线程数量
+
+```shell
+pstree -p <pid>
+top -Hp <pid>       //下面结果中的Tasks 对应的47即是线程的个数
+ps hH p 19135| wc -l
+```

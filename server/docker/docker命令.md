@@ -83,7 +83,8 @@ docker stop 容器
 docker start -i 容器
 docker rm -f xxx 删除容器 
 docker restart 容器id
-docker update --restart=always 容器id  更新启动方式
+docker update --restart=always   #容器id  更新启动方式  docker启动容器就启动
+                       =no  # 不自动启动
 docker logs -f -t --tail 行数 容器ID  实时查看docker日志
 docker inspect [容器id]  # 查看容器信息
 docker volume prune  # 清理多余的数据卷
@@ -138,8 +139,6 @@ docker pull mysql:8.0.15
 ```
 docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qaz@WSX -v /mysql/conf/my.cnf:/etc/my.cnf -d mysql:8.0.15 --default-authentication-plugin=mysql_native_password 
 ```
->
-
 - 客户端连不上
 1. select user, host, plugin from user;查询加密插件
 2. ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 修改加密方式
