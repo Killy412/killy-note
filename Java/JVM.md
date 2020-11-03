@@ -261,7 +261,7 @@ jinfo [option] pid
 
 option参数如下
 
-![image-20200915111022360](../img\image-20200915111022360.png)
+![image-20200915111022360](../img/image-20200915111022360.png)
 
 - **<font color="red">进程信息dump下来命令[ jmap -dump:format=b,file=dumpFileName pid ]</font>**
 
