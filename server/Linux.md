@@ -65,6 +65,19 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
+##### scp拷贝文件/文件夹命令
+
+```shell
+# 远程仓库拷贝文件到本地
+scp root@10.6.159.147:/opt/soft/demo.tar /opt/soft/
+# 远程仓库拷贝目录到本地
+scp -r root@10.6.159.147:/opt/soft/test /opt/soft/
+# 上传文件到服务器指定目录
+scp /opt/soft/demo.tar root@10.6.159.147:/opt/soft/scptest
+# 上传本地目录到服务器指定目录
+scp -r /opt/soft/test root@10.6.159.147:/opt/soft/scptest
+```
+
 ## 文件结构
 
 系统安装软件一般在/usr/share，
