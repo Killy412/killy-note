@@ -43,7 +43,7 @@ cpu cores    : 6
 
 ```
 
-## 命令
+## 常用命令
 
 ```bash
 # 查看某个进程的子进程
@@ -53,16 +53,12 @@ top -Hp [pid]
 top -n 1 -H -p [pid]
 # 查看磁盘情况
 df -hl
-
-# 搜索文本 grep命令相关
-grep [-acinv] [--color=auto] '搜寻字符串' filename
-选项与参数：
--a:将 binary 文件以 text 文件的方式搜寻数据
--c:计算找到 '搜寻字符串' 的次数
--i:忽略大小写的不同，所以大小写视为相同
--n:顺便输出行号
--v:反向选择，亦即显示出没有 '搜寻字符串' 内容的那一行！
---color=auto:可以将找到的关键词部分加上颜色的显示喔！
+# 查找程序
+ps -ef | grep -v grep | grep fisco-bcos
+# 查看端口占用情况
+netstat -ano | grep tcp |grep 8545
+# 添加执行权限
+chmod a+x <文件名>
 ```
 
 ##### scp拷贝文件/文件夹命令
@@ -78,6 +74,22 @@ scp /opt/soft/demo.tar root@10.6.159.147:/opt/soft/scptest
 scp -r /opt/soft/test root@10.6.159.147:/opt/soft/scptest
 ```
 
+##### grep命令
+
+```shell
+# 搜索文本 grep命令相关
+grep [-acinv] [--color=auto] '搜寻字符串' filename
+选项与参数：
+-a:将 binary 文件以 text 文件的方式搜寻数据
+-c:计算找到 '搜寻字符串' 的次数
+-i:忽略大小写的不同，所以大小写视为相同
+-n:顺便输出行号
+-v:反向选择，亦即显示出没有 '搜寻字符串' 内容的那一行！
+--color=auto:可以将找到的关键词部分加上颜色的显示喔！
+```
+
+
+
 ## 文件结构
 
 系统安装软件一般在/usr/share，
@@ -91,13 +103,6 @@ lib文件 /usr/lib
 ### 正在运行的前台任务改为后台任务
 
 首先在前台任务按　Ctrl+Z ,然后执行　```bg```命令
-
-### 权限
-
-```shell
-# 添加执行权限
-chmod a+x <文件名>
-```
 
 #### 查询子线程数量
 
