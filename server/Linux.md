@@ -88,6 +88,27 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
+##### screen命令
+
+```shell
+# 新建一个名叫 test 的session，并马上进入
+screen -S test
+# 创建一个名叫 test 的session，但暂不进入，可用于系统启动脚本里
+screen -dmS test
+# 列出当前所有session
+screen -ls 
+# 接入(attach)一个名为test会话
+screen -r test
+# 远程脱离(detach) test 会话
+screen -d test
+# 脱离(detach)当前会话，将目前的 screen session (可能含有多个 windows) 丢到后台执行
+CTRL+a然后d
+# 查看 screen 版本号
+screen -v
+# 如果由于某种原因其中一个会话死掉了（例如人为杀掉该会话），这时screen -list会显示该会话为dead状态。使用screen -wipe命令清除该会话：
+screen -wipe
+```
+
 
 
 ## 文件结构
