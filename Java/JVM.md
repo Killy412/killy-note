@@ -232,12 +232,14 @@ Parallel Scavenge的老年代版本,支持多线程并发收集,使用标记整�
 > 3. 不够的话,去survivor区看内存够不够,会继续判断老年代剩余内存是否足够
 > 4. 老年代不够会执行full gc
 
-> 执行minor gc流程
+空间分配担保:
+
+> 在发生Minor GC之前
 >
-> 1. 先判断老年代剩余大小是否足够,足够直接晋升
-> 2. 不够会判断是否开启分配担保的配置
-> 3. 开启的话,先判断老年代剩余空间是否大于历次晋升的平均值,大于的话执行minor gc,不大于的话执行full gc
-> 4. 未开启执行 full gc
+> 1. 虚拟机必须先检查老年代最大可用的连续空间是否大于新生代所有对象总空间,如果这个条件成立,那这一次M inor GC可以确保是安全的.
+> 2. 如果不成立,则虚拟机会先查看-XX:HandlePromotionFailure参数的设置值是否允许担保失败(Handle Promotion Failure);
+> 3. 如果允许,那会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小,如果大于,将尝试进行一次Minor GC,尽管这次Minor GC是有风险的;
+> 4. 如果小于,或者-XX：HandlePromotionFailure设置不允许冒险,那这时就要改为进行一次Full GC.
 
 ### 查看虚拟机信息常用命令
 
@@ -247,7 +249,10 @@ jps -l
 ##### 虚拟机统计信息监控
 
 **jstat [option vmid [interval[s|ms]] [count]]**
-option参数表示用户希望查看的信息
+option参数表示用户希望查看的信息   `jstat -gcutil 12000 1000 3` 隔一秒输出一次GC情况
+
+- interval   间隔多少时间
+- count     输出次数
 
 ![image-20200915110335620](../img/image-20200915110335620.png)
 
@@ -255,9 +260,7 @@ option参数表示用户希望查看的信息
 
 jinfo [option] pid
 
-##### Java内存映像工具 jmap,查看堆信息
-
-**jmap [option] vmid**
+##### Java内存映像工具(堆栈信息转褚工具) jmap,查看堆信息 `jmap [option] vmid`
 
 option参数如下
 
