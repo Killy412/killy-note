@@ -57,6 +57,8 @@ df -hl
 ps -ef | grep -v grep | grep fisco-bcos
 # 查看端口占用情况
 netstat -ano | grep tcp |grep 8545
+# 查看端口占用进程
+lsof -i:<端口>
 # 添加执行权限
 chmod a+x <文件名>
 ```
