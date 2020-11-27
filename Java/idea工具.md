@@ -12,3 +12,11 @@
   </component>
 ```
 
+### 重置试用期
+
+```shell
+rm -rf ~/.java/.userPrefs/jetbrains/pycharm
+cd ~/.config/JetBrains/PyCharm2020.2
+rm -rf eval
+rm -rf options/other.xml
+```
