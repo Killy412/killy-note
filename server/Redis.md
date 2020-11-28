@@ -1,5 +1,6 @@
 # Redis相关
 ## 常用命令
+
 ```shell
 redis-cli                                    # 登录
 auth ""                                      # 密码认证
@@ -121,7 +122,6 @@ zrank <key> <member>                          # 获取该值的索引下标
 zscore <key> <member>                         # 获取该值对应分数
 ```
 
-
 ## redis geo地理位置相关指令(实现附近的人)
 
 Redis结合有序队列zset以及geohash编码,实现空间搜索功能.Geo模块六个指令
@@ -156,3 +156,10 @@ georadiusbymember <key> <member> <radius> <unit>    # 查看对象指定距离�
 > 纬差一度距离: 110950 m
 >     一分   1850 m
 >     一秒   30.9 m
+
+
+
+## 持久化方式
+
+- AOF:  存储命令
+- RDB: 数据快照存储方式
