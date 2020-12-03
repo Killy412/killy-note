@@ -140,6 +140,8 @@ java -XX:+PrintFlagsFinal -version | grep HeapSize
 
 4. 常量池
 
+   //todo 
+
 5. 访问标记(access_flags)  占两个字节
 
    ```
