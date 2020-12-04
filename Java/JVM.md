@@ -132,11 +132,9 @@ java -XX:+PrintFlagsFinal -version | grep HeapSize
 
 ##### Class文件结构
 
-1. 魔数和class文件版本  占四个字节
+1. 魔数(0xcafebabe) 占四个字节
 
-2. 次版本号   minor_version  占两个字节
-
-3. 主版本号   major_version  占两个字节
+2. 次版本号(major_version  占两个字节)和主版本号(minor_version  占两个字节) 
 
 4. 常量池
 
