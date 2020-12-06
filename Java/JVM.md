@@ -130,17 +130,26 @@ java -XX:+PrintFlagsFinal -version | grep HeapSize
 
 ### Class类型信息
 
+Class文件只有两种数据类型,**无符号数和表**.无符号数属于基本的数据类型,用来描述数字/索引引用/数量值/字符串.表是由多个无符号数或者其他表作为数据项组成的复杂数据类型.
+
 ##### Class文件结构
 
 1. 魔数(0xcafebabe) 占四个字节
 
 2. 次版本号(major_version  占两个字节)和主版本号(minor_version  占两个字节) 
 
-4. 常量池
+3. 常量池
 
-   //todo 
+   常量池主要存放两大类常量: 字面量和符号引用. 字面量一般是字符串或者常量值等. 符号引用属于编译原理方面的概念.主要包括以下几类常量:
 
-5. 访问标记(access_flags)  占两个字节
+   - 被模块导出或开发的包
+   - 类和接口的全限定名
+   - 字段的名称和描述符
+   - 方法的名称和描述符
+   - 方法句柄和方法类型
+   - 动态调用点和动态常量
+
+5. 访问标记(access_flags):用于识别类或者接口层次的访问信息  占两个字节
 
    ```
    ACC_PUBLIC
@@ -156,17 +165,73 @@ java -XX:+PrintFlagsFinal -version | grep HeapSize
 
 6. 类索引/父类索引/接口索引集合
 
-7. 字段表集合: 用于描述类或接口声明的变量
+6. 字段表集合: 用于描述类或接口声明的变量
 
-8. 方法表集合
+   字段表结构主要包含以下几个
+   |类型 |  名称 | 数量|
+   | :-:|:-:|:-: |
+   | u2 | access_flags | 1 |
+   | u2 | name_index | 1 |
+   | u2 | descriptor_index | 1 |
+   | u2 | attributes_count | 1 |
+   | attribute_info | attributes | attributes_count |
+
+   
+
+7. 方法表集合: 结构和字段表集合一样.
 
    ```
    ACC_SYNCHRONIZED
    ```
 
-   
+8. 属性表集合(attribute_info): 
 
 Java虚拟机会调用"类加载器"子系统把类加载到内存中
+
+##### 字节码指令
+
+1. 加载和存储指令: 用于将数据在栈帧中的局部变量表和操作数栈之间来回传输
+   - 将一个局部变量加载到操作数栈 : <t>load_<n>
+   -  将一个数值从操作数栈存储到局部变量表  <t>store_<n>
+   -  将一个常量加载到操作数栈
+   
+2. 运算指令 : 用于将操作数栈上的两个值进行指定运算,并把结果重新存入操作数栈顶. 
+   
+   - 加(add)/减(sub)/乘(mul)/除(div)/取余(rem)/求反(neg)/位移(shl)
+   
+3. 类型转换指令: 将两种不同的数值类型进行转换,用于代码中的显式转换类型操作
+
+4. 对象创建和访问指令
+   - 创建类示例 new / 创建数组示例 (newarray/anewarray/multianewarray)
+   - 访问类字段 getfield/putfield/getstatic/putstatic
+   - 把一个数组元素加载到操作数栈的指令: baload/caload/salod/iaload/faload/daload/aaload
+   - 将一个操作数栈的值存储到数组元素的指令: bastore/castore/sastore/iastore/fastore/dastore/aastore
+   - 获取数组长度指令:  arraylength
+   - 检查类示例类型的指令: instanceof/checkcast
+   
+5. 操作数栈管理指令
+   - 将操作数栈栈顶元素移除: pop/pop2
+   - 将栈顶两个元素交换位置: swap
+   - 复制栈顶一个或两个数值并将复制的值重新压入栈顶: dup/dup2/dup_x1/dup2_x1
+   
+6. 控制转移指令: 可以让jvm虚拟机有条件或无条件的从指定位置指令的下一条指令继续执行程序.
+   - 条件分支 ifeq/iflt/ifle/ifne/ifgt/ifge/ifnull/ifnonnull/if_icmpeq/...
+   - 复合条件分支: tableswitch/lookupswitch
+   - 无条件分支: goto/goto_w/jsr/jsr_w/ret
+   
+7. 方法调回和返回指令
+
+   1. invokevirtual指令: 调用实例方法
+   2. invokeinterface指令: 调用接口方法
+   3. invokespecial:  调用私有方法/父类方法
+   4. invokestatic: 调用类静态方法
+   5. invokedynamic: 用于在运行时动态解析出调用点限定符所引用的方法.
+
+8. 异常处理指令: 
+
+9. 同步指令:  java虚拟机可以支持方法级的同步和方法内部一段指令序列的同步. 这两种同步结构都是使用管程(Monitor,俗称锁)实现的.
+
+   
 
 ##### 类加载步骤
 
