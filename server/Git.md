@@ -180,3 +180,30 @@ git clone https://github.com.cnpmjs.org/facebook/react
 git clone https://gitee.com/mirrors/react.git
 ```
 
+### git 电脑上多git仓库配置
+
+在用户路径下`.ssh`文件夹下创建`config`文件. 配置对应的服务器地址和私钥路径.
+
+```
+# 该文件用于配置私钥对应的服务器
+
+# Default github user
+Host github.com
+HostName github.com
+User git
+IdentityFile C:/Users/lxq41/.ssh/github_rsa
+
+# Default github user
+Host 119.3.26.127
+HostName gitlab.hwidt.com
+User lixiaoqing
+IdentityFile C:/Users/lxq41/.ssh/hwidt_rsa
+```
+
+- 生成密钥文件命令
+
+  ```
+  ssh-keygen -t rsa -C "<邮件名>"
+  ```
+
+  
