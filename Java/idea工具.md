@@ -52,3 +52,6 @@ reg delete "HKEY_CURRENT_USER\Software\JavaSoft\Prefs\jetbrains\idea" /f
 - RestfulToolkit          同上
 - GenerateAllSetter         一键设置所有属性
 - GenerateSerialVersionUID
+- ASM bytecode viewer
+- .env files support
+- Elasticsearch
