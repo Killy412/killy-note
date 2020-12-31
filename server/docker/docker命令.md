@@ -58,6 +58,8 @@ docker load < 压缩文件路径
 - 构建镜像
 ```shell
 docker build [选项] <上下文路径>  # 构建镜像
+# 示例
+docker build -t nginx:3 .
 ```
 -  创建容器
 
@@ -105,6 +107,12 @@ docker exec -it [容器id] bash
 
 ```shell
 docker export [容器ID] > [本地文件.tar]
+```
+
+- 删除none镜像
+```shell
+docker images|grep none|awk '{print $3}'|xargs docker rmi 
+docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
 ```
 
 - 登录账号
@@ -194,11 +202,6 @@ sysctl -p
 ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.7.0/elasticsearch-analysis-ik-6.7.0.zip
 ```
 
-## 删除none镜像
-```shell
-docker images|grep none|awk '{print $3}'|xargs docker rmi 
-docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
-```
 
 # **服务器重启,使用容器重启命令**
 
