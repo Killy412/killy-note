@@ -25,6 +25,7 @@ git remote add 本地库名字 远程仓库路径
 - git reflog        记录每次命令
 
 ##### 分支
+
 ``` shell
 git branch            查看分支  
 git branch xxx        创建本地分支
@@ -61,7 +62,17 @@ git **clone github**:jj/JForm.git
 git_ali      阿里
 github      github
 
- 
+ ##### 删除某个文件的历史记录
+
+```shell
+# linux下
+git filter-branch --index-filter "git rm -r --cached --ignore-unmatch  <file/dir>" HEAD
+
+# windows下
+git filter-branch --index-filter "git rm -r --cached --ignore-unmatch <file/dir>" HEAD
+```
+
+
 
 配置本地git仓库用户名密码
 git config user.name ""
