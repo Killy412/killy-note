@@ -272,7 +272,7 @@ Java虚拟机会调用"类加载器"子系统把类加载到内存中
 
 - 启动加载器(Bootstrap Class Loader) : 负责加载<java_home>/lib目录下的类库. 开发者无法获取启动加载器的引用.
 
-- 扩展类加载器,主要实现是sun.misc.Launcher$ExtClassLoader类,主要加载<java_home>/lib/ext包或者java.ext.dirs目录下的类.
+- 扩展类加载器,主要实现是sun.misc.Launcher$ExtClassLoader类,主要加载<java_home>/lib/ext包或者java.ext.dirs环境变量的类库.
 
 - 引用程序类加载器(Application Class Loader),主要实现在sun.misc.Launcher$AppClassLoader类.负责加载用户(UserClassPath)路径下的类库. 由于ClassLoader.getSystemClassLoader()方法返回的是此加载器,所以也被称为**系统加载器**.
 - 用户自定义类加载器: 自己实现的类加载器
