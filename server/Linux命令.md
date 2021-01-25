@@ -18,7 +18,7 @@ lsof -i:<端口>
 chmod a+x <文件名>
 ```
 
-##### scp拷贝文件/文件夹命令
+## scp拷贝文件/文件夹命令
 
 ```shell
 # 远程仓库拷贝文件到本地
@@ -31,7 +31,7 @@ scp /opt/soft/demo.tar root@10.6.159.147:/opt/soft/scptest
 scp -r /opt/soft/test root@10.6.159.147:/opt/soft/scptest
 ```
 
-##### grep命令
+## grep命令
 
 ```shell
 # 搜索文本 grep命令相关
@@ -39,13 +39,17 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 选项与参数：
 -a:将 binary 文件以 text 文件的方式搜寻数据
 -c:计算找到 '搜寻字符串' 的次数
+-I:忽略二进制文件
 -i:忽略大小写的不同，所以大小写视为相同
 -n:顺便输出行号
 -v:反向选择，亦即显示出没有 '搜寻字符串' 内容的那一行！
---color=auto:可以将找到的关键词部分加上颜色的显示喔！
+-r:递归文件夹下的所有子文件
+-L, --files-without-match  只打印没有匹配上的<文件>的名称
+-l, --files-with-matches  只打印有匹配的<文件>的名称
+--color=auto/always:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
-##### screen命令
+## screen命令
 
 ```shell
 # 新建一个名叫 test 的session，并马上进入
@@ -66,7 +70,7 @@ screen -v
 screen -wipe
 ```
 
-##### 后台运行程序命令: nohup
+## 后台运行程序命令: nohup
 
 ```shell
 nohup /root/runoob.sh > runoob.log 2>&1 &
@@ -82,23 +86,24 @@ nohup /root/runoob.sh > runoob.log 2>&1 &
 
 
 
-#####  terminal配置代理
+##   terminal配置代理
 
 在 .bashrc 或 .zshrc 中设置如下内容
 
-```
+``` 
 alias setproxy="export ALL_PROXY=socks5://127.0.0.1:1080"
 alias unsetproxy="unset ALL_PROXY"
 aliaa ip="curl -i http://ip.cn"
 ```
-
+ 
 在使用是手动调用这些命令进行设置。
 
 或者使终端总是使用代理：
 
 ```
 export http_proxy="socks5://127.0.0.1:1086"
-export https_proxy="socks5://127.0.0.1:1086"
+export https_proxy="socks5:
+//127.0.0.1:1086"
 ```
 
 重启 terminal 生效。可以通过curl -i http://ip.cn查看IP改变来测试是否生效
