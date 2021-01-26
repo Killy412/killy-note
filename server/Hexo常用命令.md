@@ -270,3 +270,40 @@ hexo d
 ```
 
 构建只需要执行`npm run build`，构建发布只需要执行`npm run deploy`。
+
+
+### 添加动态背景
+
+1. 在Next6.0以上版本，直接在主题文件下的`/themes/next/_config.yml`设置Canvas_nest属性为true，动态背景是没法生效。
+   在_config.yml中也可以看到Canvas_nest里面有注释信息：
+
+   ```yml
+   # Canvas-nest
+   # Dependencies: https://github.com/theme-next/theme-next-canvas-nest
+   # For more information: https://github.com/hustcc/canvas-nest.js
+   ```
+
+2. 解决方法：
+   进入git命令行模式进入themes/next目录下 `cd themes/next `
+
+   然后执行
+
+   ```shell
+   git clone https://github.com/theme-next/theme-next-canvas-nest source/lib/canvas-nest
+   ```
+   
+3. 然后运行就可以了
+
+   ```yml
+   # 属性说明
+   canvas_nest:
+     enable: true  # 是否启用
+     onmobile: true # 手机上是否展示
+     color: "0,0,255" # 线条颜色
+     opacity: 0.5 # 线条透明度
+     zIndex: -1 # z-index property of the background
+     count: 150 #背景线条数量
+   ```
+
+   
+
