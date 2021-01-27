@@ -18,7 +18,7 @@ lsof -i:<端口>
 chmod a+x <文件名>
 ```
 
-## scp拷贝文件/文件夹命令
+## scp 拷贝文件/文件夹命令
 
 ```shell
 # 远程仓库拷贝文件到本地
@@ -31,7 +31,7 @@ scp /opt/soft/demo.tar root@10.6.159.147:/opt/soft/scptest
 scp -r /opt/soft/test root@10.6.159.147:/opt/soft/scptest
 ```
 
-## grep命令
+## grep 命令
 
 ```shell
 # 搜索文本 grep命令相关
@@ -49,7 +49,7 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto/always:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
-## screen命令
+## screen 命令
 
 ```shell
 # 新建一个名叫 test 的session，并马上进入
@@ -57,7 +57,7 @@ screen -S test
 # 创建一个名叫 test 的session，但暂不进入，可用于系统启动脚本里
 screen -dmS test
 # 列出当前所有session
-screen -ls 
+screen -ls
 # 接入(attach)一个名为test会话
 screen -r test
 # 远程脱离(detach) test 会话
@@ -76,7 +76,7 @@ screen -wipe
 nohup /root/runoob.sh > runoob.log 2>&1 &
 ```
 
-**2>&1** 解释: 
+**2>&1** 解释:
 
 将标准错误 2 重定向到标准输出 &1 ，标准输出 &1 再被重定向输入到 runoob.log 文件中。
 
@@ -84,18 +84,16 @@ nohup /root/runoob.sh > runoob.log 2>&1 &
 - 1 – stdout (standard output，标准输出)
 - 2 – stderr (standard error，标准错误输出)
 
-
-
-##   terminal配置代理
+## terminal 配置代理
 
 在 .bashrc 或 .zshrc 中设置如下内容
 
-``` 
+```
 alias setproxy="export ALL_PROXY=socks5://127.0.0.1:1080"
 alias unsetproxy="unset ALL_PROXY"
 aliaa ip="curl -i http://ip.cn"
 ```
- 
+
 在使用是手动调用这些命令进行设置。
 
 或者使终端总是使用代理：
@@ -106,4 +104,15 @@ export https_proxy="socks5:
 //127.0.0.1:1086"
 ```
 
-重启 terminal 生效。可以通过curl -i http://ip.cn查看IP改变来测试是否生效
+重启 terminal 生效。可以通过 curl -i http://ip.cn查看IP改变来测试是否生效
+
+## npm 配置
+
+`npm install` 命令有时因为网络可能不成功
+
+```shell
+# 如果有代理,可以配置代理
+npm config set proxy http://127.0.0.1:8080
+# 设置阿里云镜像
+npm config set registry http://registry.npm.taobao.org
+```
