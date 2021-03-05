@@ -1,68 +1,5 @@
 # MySql
 
-### 字段类型
-
-##### 数据类型
-
-| 类型|大小  | 范围（有符号）| 范围（无符号） |    用途 |
-| :----------: | :--------------------------------------: | :----------------------------------------------------------- | :----------------------------------------------------------: | --------------: |
-|   TINYINT    |  1 byte | (-128，127) | (0，255) |小整数值 |
-|   SMALLINT   | 2 bytes | (-32 768，32 767)  |  (0，65 535)  | 大整数值 |
-|  MEDIUMINT   | 3 bytes| (-8 388 608，8 388 607)  | (0，16 777 215)|大整数值 |
-| INT或INTEGER | 4 bytes | (-2 147 483 648，2 147 483 647) | (0，4 294 967 295)|大整数值 |
-|    BIGINT    |  8 bytes | (-9,223,372,036,854,775,808，9 223 372 036 854 775 807)| (0，18 446 744 073 709 551 615)|极大整数值 |
-|    FLOAT |  4 bytes| (-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38) | 0，(1.175 494 351 E-38，3.402 823 466 E+38)  | 单精度 浮点数值 |
-|    DOUBLE    |  8 bytes| (-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) | 0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) | 双精度 浮点数值 |
-|   DECIMAL  | 对DECIMAL(M,D) ，如果M>D，为M+2否则为D+2 | 依赖于M和D的值 |依赖于M和D的值 |小数值 |
-
-
-### 空间类型函数
-
-```shell
-# 字符串转为内部存储的二进制数据
-[ST_]GeomFromText('POINT(123.462202 41.804471)');
-# 列转为字符串
-[ST_]AsText(列名)
-# 计算两点的距离
-[ST_]Distance_Sphere(POINT(121.590347, 31.388094),location)
-```
-
-- 使用存储过程造数据
-
-```sql
-drop procedure test_insert;
-#创建存储过程
-CREATE PROCEDURE test_insert()
-    #开始
-BEGIN
-    #定义变量
-    DECLARE i long DEFAULT 1225410207544710119;
-    #条件判断
-    WHILE i < 1225410207544820119
-        #执行
-        DO
-        #SQL
-#             INSERT into tbl_user(birthday,`open_id`,`phone`,`nick_name`,`sex`,`often_city`,`want_sex`,`avatar`,`want_rave_id`,`last_latitude`,`last_longitude`,`geo_hash`)
-#             value('2019-10-18',i,'',concat('张三',i),0,'杭州',1,'123.jpg',1,34,117,'rrr');
-            insert into tbl_match_record(uid, is_like, match_uid)
-                value (i, 0, i + 10);
-            #变量增加
-            SET i = i + 1;
-            #结束循环
-        END WHILE;
-    #提交
-    commit;
-    #结束
-END;
-#执行
-CALL test_insert();
-#删除存储过程
-drop procedure test_insert;
-#查看存储过程
-SHOW PROCEDURE STATUS;
-
-```
-
 ### 隔离级别
 
 - readuncommitted(RU):读未提交,产生脏读
@@ -233,3 +170,66 @@ show variables like 'innodb_deadlock_detect';
 
 
 
+
+### 字段类型
+
+##### 数据类型
+
+| 类型|大小  | 范围（有符号）| 范围（无符号） |    用途 |
+| :----------: | :--------------------------------------: | :----------------------------------------------------------- | :----------------------------------------------------------: | --------------: |
+|   TINYINT    |  1 byte | (-128，127) | (0，255) |小整数值 |
+|   SMALLINT   | 2 bytes | (-32 768，32 767)  |  (0，65 535)  | 大整数值 |
+|  MEDIUMINT   | 3 bytes| (-8 388 608，8 388 607)  | (0，16 777 215)|大整数值 |
+| INT或INTEGER | 4 bytes | (-2 147 483 648，2 147 483 647) | (0，4 294 967 295)|大整数值 |
+|    BIGINT    |  8 bytes | (-9,223,372,036,854,775,808，9 223 372 036 854 775 807)| (0，18 446 744 073 709 551 615)|极大整数值 |
+|    FLOAT |  4 bytes| (-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38) | 0，(1.175 494 351 E-38，3.402 823 466 E+38)  | 单精度 浮点数值 |
+|    DOUBLE    |  8 bytes| (-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) | 0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) | 双精度 浮点数值 |
+|   DECIMAL  | 对DECIMAL(M,D) ，如果M>D，为M+2否则为D+2 | 依赖于M和D的值 |依赖于M和D的值 |小数值 |
+
+
+### 空间类型函数
+
+```shell
+# 字符串转为内部存储的二进制数据
+[ST_]GeomFromText('POINT(123.462202 41.804471)');
+# 列转为字符串
+[ST_]AsText(列名)
+# 计算两点的距离
+[ST_]Distance_Sphere(POINT(121.590347, 31.388094),location)
+```
+
+- 使用存储过程造数据
+
+```sql
+drop procedure test_insert;
+#创建存储过程
+CREATE PROCEDURE test_insert()
+    #开始
+BEGIN
+    #定义变量
+    DECLARE i long DEFAULT 1225410207544710119;
+    #条件判断
+    WHILE i < 1225410207544820119
+        #执行
+        DO
+        #SQL
+#             INSERT into tbl_user(birthday,`open_id`,`phone`,`nick_name`,`sex`,`often_city`,`want_sex`,`avatar`,`want_rave_id`,`last_latitude`,`last_longitude`,`geo_hash`)
+#             value('2019-10-18',i,'',concat('张三',i),0,'杭州',1,'123.jpg',1,34,117,'rrr');
+            insert into tbl_match_record(uid, is_like, match_uid)
+                value (i, 0, i + 10);
+            #变量增加
+            SET i = i + 1;
+            #结束循环
+        END WHILE;
+    #提交
+    commit;
+    #结束
+END;
+#执行
+CALL test_insert();
+#删除存储过程
+drop procedure test_insert;
+#查看存储过程
+SHOW PROCEDURE STATUS;
+
+```

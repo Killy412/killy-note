@@ -2,6 +2,8 @@
 
 ##  安装Docker虚拟机
 
+### redhat系列安装
+
 ```shell
 yum install -y yum-utils # 安装依赖软件包
 yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo #添加软件仓库 阿里云docker安装包
@@ -12,8 +14,22 @@ systemctl enable docker # 开机自启
 systemctl start docker  # 启动
 systemctl stop docker  # 停止
 ```
+### debian系列安装
 
-#### 设置镜像加速器
+```shell
+apt update
+# 安装所需依赖
+apt install -y  apt-transport-https ca-certificates curl gnupg2 software-properties-common
+curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/debian/gpg | apt-key add -
+# 设置镜像仓库
+echo "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/debian stretch stable" >>/etc/apt/sources.list
+apt update
+apt install -y docker-ce
+systemctl start docker
+systemctl enable docker
+```
+
+### 设置镜像加速器
 
 ```shell
 curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
@@ -21,9 +37,9 @@ curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2
 
 ```shell
 {"registry-mirrors":["https://docker.mirrors.ustc.edu.cn"]}
-BashCC++C#CSSGoHaskellHTMLJavaJavaScriptJSONJSXkotlinPHPPowerShellPythonRubyRustSQLSwiftTypeScriptXML
-
-## 新方法 编辑 /etc/docker/daemon.json
+```
+#### 新方法 编辑 /etc/docker/daemon.json
+```shell
 {
   "registry-mirrors": [
     "https://dockerhub.azk8s.cn",
@@ -34,7 +50,7 @@ BashCC++C#CSSGoHaskellHTMLJavaJavaScriptJSONJSXkotlinPHPPowerShellPythonRubyRust
 sudo systemctl daemon-reload  # 更新修改的配置文件
 ```
 
-编辑/etc/docker/daemon.json文件，把结尾的逗号去掉
+## 常用命令
 
 - 管理镜像
 
@@ -55,13 +71,15 @@ docker save -o 压缩文件路径 镜像名字
 #导入镜像
 docker load < 压缩文件路径
 ```
+
 - 构建镜像
 ```shell
 docker build [选项] <上下文路径>  # 构建镜像
 # 示例
 docker build -t nginx:3 .
 ```
--  创建容器
+
+- 创建容器
 
 ```shell
 #查看运行的容器
@@ -104,7 +122,7 @@ docker logs <options> [容器id] >& logs/myFile.log
 ```shell
 docker exec -it [容器id] bash
 ```
-- 导出容器
+-  导出容器
 
 ```shell
 docker export [容器ID] > [本地文件.tar]
@@ -124,7 +142,7 @@ sudo docker login --username=killy412 registry.cn-beijing.aliyuncs.com
 docker logout
 ```
 
-## docker安装redis
+### 安装redis
 
 - 拉取镜像
 
@@ -138,7 +156,8 @@ docker pull daocloud.io/library/redis:5.0.5
 docker run -p 6379:6379 --name redis -v /redis/redis.conf:/etc/redis/redis.config -v /redis/data:/data -d redis:5.0.5 redis-server --appendonly yes  --requirepass "1qaz@WSX" # 设定密码
 ```
 
-## docker 安装mysql
+### 安装mysql
+
 - 拉取镜像
 
 ```shell
@@ -152,7 +171,8 @@ docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qa
 1. select user, host, plugin from user;查询加密插件
 2. ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 修改加密方式
 
-## docker安装rabbitmq
+### 安装rabbitmq
+
 - 运行容器
 ```shell
 docker run -d --hostname rabbit-host --name rabbitmq --restart=always -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1qaz@WSX -p 15672:15672 -p 5672:5672 rabbitmq:3.7.15-management
@@ -180,7 +200,7 @@ rabbitmqctl set_user_tags root adminstrator
 rabbitmqctl list_users
 ```
 
-## docker安装es
+### 安装es
 
 ```shell
 docker run -e ES_JAVA_OPTS="-Xms512m -Xmx512m" -d -p 9200:9200 -p 9300:9300 -v /etc/elsearch/elsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml --name es-master
@@ -203,6 +223,5 @@ sysctl -p
 ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.7.0/elasticsearch-analysis-ik-6.7.0.zip
 ```
 
-
-# **服务器重启,使用容器重启命令**
+## **服务器重启,使用容器重启命令**
 
