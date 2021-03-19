@@ -40,3 +40,101 @@
 |      Shenandoah       |            -XX:+UseShenandoahGC            | 使用UseShenandoahGC,这是个实验参数,需用-XX:+UnlockExperimentalVMOptions解锁试验参数后,才能使用该参数；另外该参数只能在Open JDK中使用,Oracle JDK无法使用 |
 |          ZGC          |                -XX:+UseZGC                 | 使用ZGC,这是个实验参数,需用-XX:+UnlockExperimentalVMOptions解锁试验参数后,才能使用该参数; |
 |        Epsilon        |             -XX:+UseEpsilonGC              | 使用EpsilonGC,这是个实验参数,需用-XX:+UnlockExperimentalVMOptions解锁试验参数后,才能使用该参数 |
+
+
+
+## GC 参数相关
+
+开启 GC 日志
+
+```shell
+java -XX:+PrintFlagsFinal -version | grep HeapSize
+# 开启内存日志
+-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps
+```
+
+- 打印详情
+  - -XX: -PrintGCDetails
+  - -XX:+PrintGCDateStamps
+  - -XX:+PrintGCTimeStamps
+- jdk8 默认参数
+  - -Xmx(1/4 PhyMem) -Xms (1/64 PhyMem[物理内存])
+  - Parallel GC 多线程 GC
+  - -XX:NewRatio=2 (年轻代和老年代大小比例,2为年轻代:老年代 1:2) -XX: SurvivorRatio=8(设置年轻代中survivor和edan区比例 8为1:8)
+  - -XX:+UseAdaptiveSizePolicy
+- jvm 常用参数
+
+  ```shell
+  -Xms              #设置堆的初始大小. 默认是物理内存的1/64
+  -Xmx              #设置堆的最大空间大小. 默认是物理内存的1/4
+  -Xmn              #设置年轻代大小
+  -Xss              #设置每个线程的堆栈大小
+  -XX:NewSize       #设置新生代最小空间大小
+  -XX:MaxNewSize    #设置新生代最大空间大小
+  -XX:PermSize      #设置永久代最小空间大小(jdk1.8已被弃用)
+  -XX:MaxPermSize   #设置永久代最大空间大小(jdk1.8已被弃用)
+  -XX:MetaspaceSize #设置元空间初始大小
+  -XX:MaxMetaspaceSize #设置元空间最大大小
+  
+  -XX:+UseParallelGC  #选择垃圾收集器为并行收集器。此配置仅对年轻代有效。即上述配置下,年轻代使用并发收集,而年老代仍旧使用串行收集。
+  -XX:ParallelGCThreads=8  #配置并行收集器的线程数,即:同时多少个线程一起进行垃圾回收。此值最好配置与处理器数目相等。
+  -XX:+UseConcMarkSweepGC  #老年代开启CMS GC
+  -XX:+UseParNewGC   # 新生代使用并行收集器
+  -XX:+HeapDumpOnOutOfMemoryError  # 当oom时把堆内存dump下来
+  
+  
+  ‐XX:+UseG1GC  # 开启G1收集器
+  ‐XX:G1HeapRegionSize -> 指定分区大小(1MB~32MB，且必须是2的幂)，默认将整堆划分为2048个分区
+  ‐XX:MaxGCPauseMillis -> 目标暂停时间(默认200ms)
+  ‐XX:G1NewSizePercent -> 新生代内存初始空间(默认整堆5%)
+  ‐XX:G1MaxNewSizePercent -> 新生代内存最大空间
+  ‐XX:TargetSurvivorRatio -> Survivor区的填充容量(默认50%)，Survivor区域里的一批对象(年龄1+年龄2+年龄n的多个年龄对象)总和超过了Survivor区域的50%，此时就会把年龄n(含)以上的对象都放入老年代
+  ‐XX:InitiatingHeapOccupancyPercent -> 老年代占用空间达到整堆内存阈值(默认45%)，则执行 新生代和老年代的混合收集(MixedGC)，比如我们之前说的堆默认有2048个region，如果有接近 1000个region都是老年代的region，则可能就要触发MixedGC了
+  ‐XX:G1HeapWastePercent -> 默认5%， gc过程中空出来的region是否充足阈值，在混合回收的时候，对Region回收都是基于复制算法进行的，都是把要回收的Region里的存活对象放入其他 Region，然后这个Region中的垃圾对象全部清理掉，这样的话在回收过程就会不断空出来新的 Region，一旦空闲出来的Region数量达到了堆内存的5%，此时就会立即停止混合回收，意味着 本次混合回收就结束了。
+  ‐XX:G1MixedGCLiveThresholdPercent -> 默认85%，region中的存活对象低于这个值时才会回收该region，如果超过这个值，存活对象过多，回收的的意义不大。
+  ‐XX:G1MixedGCCountTarget -> 在一次回收过程中指定做几次筛选回收(默认8次)，在最后一个筛选回收阶段可以回收一会，然后暂停回收，恢复系统运行，一会再开始回收，这样可以让系统不至于单次停顿时间过长。
+  ```
+
+#### 补充
+
+> [GC[PSYoungGen 表示用的是年轻代使用Parallel Scavenge收集器。
+>  [GC[ParNew 表示使用的是年轻代使用ParNew收集器(Parallel New收集器)。
+>  [GC[DefNew 表示用的是年轻代使用Serial收集器(Serial New收集器)。
+>  [GC[PSOldGen 表示用的是老年代使用的Parallel Old收集器。
+
+### 常用组合
+
+|      Young      |       Old       |                JVM Option                |
+| :-------------: | :-------------: | :--------------------------------------: |
+|     Serial      |     Serial      |            -XX:+UserSerialGC             |
+|    Parallel     | Parallel/Serial | -XX:+UseParallelGC -XX:+UseParallelOldGC |
+| Serial/Parallel |       CMS       |   -XX:+UseParNewGC -XX:+UseConcSweepGC   |
+|       G1        |        -        |               -XX:+UseG1GC               |
+
+
+### 服务端常用组合
+
+```shell
+ENV JAVA_OPTS="\
+-server \
+-Xmx256m \
+-Xms256m \
+-Xmn128m \
+-XX:SurvivorRatio=8 \
+-XX:MetaspaceSize=64m \
+-XX:MaxMetaspaceSize=128m \
+-XX:+UseParallelGC \
+-XX:ParallelGCThreads=4 \
+-XX:+UseParallelOldGC \
+-XX:+UseAdaptiveSizePolicy \
+-XX:+PrintGCDetails \
+-XX:+PrintTenuringDistribution \
+-XX:+PrintGCDateStamps \
+-XX:+PrintGCTimeStamps \
+-XX:+HeapDumpOnOutOfMemoryError \
+-XX:HeapDumpPath=/ \
+-Xloggc:/gc.log \
+-XX:+UseGCLogFileRotation \
+-XX:NumberOfGCLogFiles=5 \
+-XX:GCLogFileSize=10M"
+```
