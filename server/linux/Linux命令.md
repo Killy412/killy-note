@@ -49,6 +49,13 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto/always:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
+## sslocal命令
+
+```shell
+# -c 指定配置文件  -d start
+sslocal -c /etc/shadowsocks/shadowsocks-conf.json -d start
+```
+
 ## screen 命令
 
 ```shell
