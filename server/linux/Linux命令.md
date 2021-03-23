@@ -107,6 +107,14 @@ nohup /root/runoob.sh > runoob.log 2>&1 &
 - 1 – stdout (standard output，标准输出)
 - 2 – stderr (standard error，标准错误输出)
 
+### 前台程序转到后台运行
+```shell
+# Ctrl+Z 先暂停并转到后台
+bg %<job id>  # 后台开始运行
+fg %<job id>  # 转到前台运行
+jobs      # 查看后台运行的命令
+```
+
 ## terminal 配置代理
 
 在 .bashrc 或 .zshrc 中设置如下内容
