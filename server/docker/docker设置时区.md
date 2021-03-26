@@ -12,8 +12,16 @@ RUN dpkg-reconfigure -f noninteractive tzdata
 ```bash
 # 进入容器中
 docker exec -it <CONTAINER NAME> bash
-# 执行以下
+# 方法一 -> 执行以下
 echo "Asia/Shanghai" > /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata
+# 方法二  -> 
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 并且重启
+```
+
+### Docker run时指定时区
+
+```
+docker run -d <容器> -v /etc/timezone:/etc/timezone -v /etc/localtime:/etc/localtime
 ```
 
