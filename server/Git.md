@@ -9,13 +9,13 @@ git remote add 本地库名字 远程仓库路径
 推送本地内容    git push -u origin(本地库名字) master(分支) 第二次提交不用-u
 
 ##### 创建版本库
+```shell
+git init        #   初始化git本地仓库
+git add xxx    #  添加文件到本地库
+git commit -m ""  #提交文件
+git remote add origin <远程仓库地址>  # 和远程仓库关联
+```
 
-- mkdir xxx      本地创建文件
-- cd  xxx          切换目录
-- pwd            显示当前目录
-- git init           初始化git本地仓库
-- git add xxx      添加文件到本地库
-- git commit -m ""  提交文件
 
 ##### 版本状态
 - git status     查看当前git的状态

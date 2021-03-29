@@ -10,6 +10,22 @@ top -n 1 -H -p [pid]
 df -hl
 # 查找程序
 ps -ef | grep -v grep | grep fisco-bcos
+# 通过cpu和内存使用过滤进程
+ps -aux --sort -%mem | head -n 5
+ps -aux --sort -%cpu | less
+# ps -aux --sort   输出行的列信息
+  # USER，用户名称
+  # PID，进程号
+  # %CPU，该进程所占用CPU百分比
+  # %MEM，该进程所占用内存百分比
+  # VSZ，进程所占用的虚拟内存大小
+  # RSS，进程所占用的实际内存大小
+  # TTY，该进程运行在哪个终端上面,若与终端无关，则显示 ?
+  # STAT，进程状态
+  # START，进程启动时间
+  # TIME，进程实际占用CPU的时间
+  # COMMAND，该进程对应的执行程序
+  
 # 查看端口占用情况
 netstat -ano | grep tcp |grep 8545
 # 查看端口占用进程
@@ -49,6 +65,13 @@ grep [-acinv] [--color=auto] '搜寻字符串' filename
 --color=auto/always:可以将找到的关键词部分加上颜色的显示喔！
 ```
 
+## sslocal命令
+
+```shell
+# -c 指定配置文件  -d start
+sslocal -c /etc/shadowsocks/shadowsocks-conf.json -d start
+```
+
 ## screen 命令
 
 ```shell
@@ -83,6 +106,14 @@ nohup /root/runoob.sh > runoob.log 2>&1 &
 - 0 – stdin (standard input，标准输入)
 - 1 – stdout (standard output，标准输出)
 - 2 – stderr (standard error，标准错误输出)
+
+### 前台程序转到后台运行
+```shell
+# Ctrl+Z 先暂停并转到后台
+bg %<job id>  # 后台开始运行
+fg %<job id>  # 转到前台运行
+jobs      # 查看后台运行的命令
+```
 
 ## terminal 配置代理
 
