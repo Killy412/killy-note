@@ -45,3 +45,8 @@ controller生成数据,经过view渲染出来,可以渲染成json,xml,
 6. BeanPostProcessor: **调用postProcessAfterInitialization(Object o,String s)方法**
 7. DisposableBean: bean不需要的时候,会经过清理阶段,bean实现此接口,会调用**destory()**方法
 8. destory-method:  如果bean在spring配置文件中配置了destory-method属性,会调用配置的销毁方法
+
+
+索引下推
+
+g1垃圾回收器 年轻代的默认值是什么
