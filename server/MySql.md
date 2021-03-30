@@ -171,7 +171,13 @@ redo log 也需要在事务提交时将日志写入磁盘，为什么它比直�
   - **range** :范围扫描通常出现在in(), between,>,<,>=等操作中。使用一个索引来检索给定范围的行.
   - **ref** :相比eq_ref，不适用唯一索引，而是使用普通索引或者唯一索引的部分前缀，索引要和某个值相比较，可能会找到多个符合条件的行。
   - **eq_ref** :primay key或 unique key索引的所有部分被连接使用，最多只会返回一条符合条件的记录。这可能是const之外最好的联接类型，简单的select查询不会出现这种type。
-  - **const** :mysql能对查询的某部分进行优化并将其转换成一个常量（可看成是show warnings的结果）。用于primay key或unique key的所有列与常数比较时，所以表最多有一个匹配行，读取1次，速读较快。system 是const的特例，表中只有一行元素匹配时为system。
+  - **const** :mysql能对查询的某部分进行优化并将其转换成一个常量（可看成是show warnings的结果）。用于primay key或unique key的所有列与常数比较时，所以表最多有一个匹配行，读取1次，速读较快。
+  - system 是const的特例，表中只有一行元素匹配时为system
+- extra的值
+  - using where: 会把数据行从存储引擎查询出来之后再进行过滤
+  - using index: 使用覆盖索引
+  - using index condition:  使用索引下推
+  - using temporary: 对查询结果排序时会使用临时表.
 
 
 

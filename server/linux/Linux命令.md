@@ -147,3 +147,24 @@ npm config set proxy http://127.0.0.1:8080
 # 设置阿里云镜像
 npm config set registry http://registry.npm.taobao.org
 ```
+
+## [磁盘挂载](https://www.cnblogs.com/sirdong/p/11969148.html)
+
+```shell
+# 查看磁盘信息
+df -h
+# 列出可用块设备信息
+lsblk
+# 进行磁盘分区
+fdisk /dev/vdb
+# 格式化分区
+mkfs.ext4 /dev/vdb1
+# 创建挂载点
+mkdir /vdb1
+mount /dev/vdb1 /vdb1
+# 查看uuid
+blkid
+# 把uuid写入到/etc/fstab文件中
+echo "UUID=e943fbb7-020a-4c64-a48a-2597eb2496df /vdb1 ext4 defaults 0 0" >> /etc/fstab
+```
+
