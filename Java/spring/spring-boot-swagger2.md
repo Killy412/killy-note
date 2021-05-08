@@ -86,6 +86,11 @@ public class SwaggerConfig {
 - @ApiImplicitParams() 描述接口的非对象参数集
 - @ApiImplicitParam() 描述接口的非对象参数集,属性:
 	* paramType  查询参数类型
+	  * path 以地址的形式提交数据
+	  * query 直接跟参数完成自动映射赋值
+	  * body 以流的形式提交 仅支持POST
+	  * header 参数在request headers 里边提交
+	  * form 以form表单的形式提交 仅支持POST
 	* dataType 参数数据类型
 	* name  参数名称
 	* value 参数意义描述
