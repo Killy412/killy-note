@@ -54,6 +54,9 @@ scp -r /opt/soft/test root@10.6.159.147:/opt/soft/scptest
 grep [-acinv] [--color=auto] '搜寻字符串' filename
 选项与参数：
 -a:将 binary 文件以 text 文件的方式搜寻数据
+-A 10: 显示匹配的前十行
+-B 10: 显示匹配的后十行
+-C 10: 现实匹配的前后十行
 -c:计算找到 '搜寻字符串' 的次数
 -I:忽略二进制文件
 -i:忽略大小写的不同，所以大小写视为相同
