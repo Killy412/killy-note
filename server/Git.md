@@ -72,6 +72,12 @@ git filter-branch --index-filter "git rm -r --cached --ignore-unmatch  <file/di
 git filter-branch --index-filter "git rm -r --cached --ignore-unmatch <file/dir>" HEAD
 ```
 
+##### 修改当前commit的用户名和邮箱
+
+```
+git commit --amend --author "chuanfu <lxq413@126.com>" --no-edit
+```
+
 
 
 配置本地git仓库用户名密码
