@@ -22,6 +22,6 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 并且重启
 ### Docker run时指定时区
 
 ```
-docker run -d <容器> -v /etc/timezone:/etc/timezone -v /etc/localtime:/etc/localtime
+docker run -d <容器> -e TZ=Asia/Shanghai
 ```
 
