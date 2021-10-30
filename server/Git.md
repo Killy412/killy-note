@@ -208,13 +208,13 @@ git clone https://gitee.com/mirrors/react.git
 Host github.com
 HostName github.com
 User git
-IdentityFile C:/Users/lxq41/.ssh/github_rsa
+IdentityFile C:/Users/username/.ssh/github_rsa
 
 # Default github user
-Host 119.3.26.127
-HostName gitlab.hwidt.com
-User lixiaoqing
-IdentityFile C:/Users/lxq41/.ssh/hwidt_rsa
+Host <HostName>
+HostName <HostName>
+User <localName>
+IdentityFile C:/Users/username/.ssh/<HostName>_rsa
 ```
 
 - 生成密钥文件命令
