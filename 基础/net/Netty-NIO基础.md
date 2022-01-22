@@ -240,3 +240,5 @@ EventExector相当于EventLoop
    - **release() 与 retain()**:由于 Netty 使用了堆外内存，而堆外内存是不被 jvm 直接管理的，也就是说申请到的内存无法被垃圾回收器直接回收，所以需要我们手动回收。Netty 的 ByteBuf 是通过引用计数的方式管理的，如果一个 ByteBuf 没有地方被引用到，需要回收底层内存。默认情况下，当创建完一个 ByteBuf，它的引用为1，然后每次调用 retain() 方法， 它的引用就加一， release() 方法原理是将引用计数减一，减完之后如果发现引用计数为0，则直接回收 ByteBuf 底层的内存。
    - **slice()/duplicate()/copy()**:这三个都会返回一个新的ByteBuf。第一个是截取读指针到写指针范围内的一段内容。第二个是截取整个ByteBuf，包括数据和指针信息。第三个是拷贝所有信息，除了第二个API的内容还包括底层信息，因此拷贝后的新ByteBuf任何操作不会影响原始的ByteBuf.
 
+
+# [netty 博客 javadoop](https://javadoop.com/post/netty-1)
