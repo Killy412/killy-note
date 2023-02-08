@@ -32,7 +32,7 @@ ExecStart=/usr/bin/dockerd  -H tcp://0.0.0.0:2375  -H unix:///var/run/docker.soc
     <configuration>
         <imageName>${docker.image.prefix}/${project.artifactId}</imageName> #镜像名
         <dockerDirectory>src/main/docker</dockerDirectory>
-        <dockerHost>http://47.103.10.118:2375</dockerHost>
+        <dockerHost>http://ip:2375</dockerHost>
         <resources>
             <resource>
                 <targetPath>/</targetPath>

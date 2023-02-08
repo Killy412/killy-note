@@ -118,7 +118,7 @@ Java异步IO提供了两种使用方式,分别是回调函数和Future实例.
 
 **AsynchronousChannelGroup**类. 异步IO一定存在一个线程池. 线程池负责处理任务,处理IO事件,回调等. 线程池就在group内部.group一旦关闭,线程池就会关闭.
 
-### netty其他组件
+### Netty其他组件
 
 - EventLoop
 - ChannelFuture:异步结果
@@ -162,7 +162,7 @@ netty提供了四种解决方法
 
 > **粘包/拆包处理要放在处理链中第一个**
 
-![通信协议](../../img/1383122-20200425144254261-1102259668.png)
+![通信协议](../img/1383122-20200425144254261-1102259668.png)
 
 ## [netty视频笔记](https://v-wb.youku.com/v_show/id_XMzQ5NTE5MzEzNg==.html)
 

@@ -9,9 +9,6 @@ ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交
 
 ### 依赖注入
 
-
-### AOP
-
 ### spring bean线程安全的问题
 
 正常单例bean是无状态的. 因此是线程安全的. bean如果有成员变量会存在线程安全的问题. 常用两种解决方法
@@ -26,6 +23,20 @@ ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交
 > 拦截器,是基于反射机制实现,不依赖servlet.
 >
 > aop只能拦截spring管理的bean实例
+
+### Spring Aop实现原理
+
+通过动态代理(jdk动态代理或者cglib动态代理) 增强需要增强的类,生成字节码
+
+> 原理: 用代理类包裹切面,织入spring管理的bean中,
+>
+> 动态代理实现
+>
+> spring aop动态代理实现方式有两种,jdk动态代理和cglib动态代理
+>
+> - jdk动态代理通过反射来生成目标代理接口的匿名实现类.
+> - cglib动态代理:如果目标类没有实现接口,springaop会使用cglib动态代理目标类.可以在运行时生成某个类的子类,通过继承的方式做的动态代理,如果某个类时final,无法使用cglib动态代理
+
 
 ###  springmvc流程
 
@@ -50,11 +61,8 @@ ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交
 3. 按照Bean的定义创建Bean
 4. 一些Bean生命周期的加载,例如PostProcessor 
 
-### Spring Aop实现原理
 
-通过动态代理(jdk动态代理或者cglib动态代理) 增强需要增强的类,生成字节码
-
-### springBean 生命周期
+### Spring Bean的生命周期
 
 1. 实例化Bean: 容器调用createBean()进行实例化.
 2. 设置对象属性(依赖注入): 
@@ -69,3 +77,9 @@ ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交
 6. BeanPostProcessor: **调用postProcessAfterInitialization(Object o,String s)方法**
 7. DisposableBean: bean不需要的时候,会经过清理阶段,bean实现此接口,会调用**destory()**方法
 8. destory-method:  如果bean在spring配置文件中配置了destory-method属性,会调用配置的销毁方法
+
+### Spring事物实现的方式
+
+1. 编程式事物,需要在代码中调用beginTransaction,commit,rollback等事物相关的方法
+2. 基于TransactionProxyFactoryBean的声明式事物
+3. 基于注解@Transaction的声明式事物

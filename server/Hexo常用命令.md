@@ -28,7 +28,7 @@ layout布局方式有三种
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/username/username.github.io.git
+  repository: https://github.com/[username]/[username].github.io.git
   branch: master
 ```
 

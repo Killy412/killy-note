@@ -223,3 +223,7 @@ npm config set proxy http://127.0.0.1:8080
 # 设置阿里云镜像
 npm config set registry http://registry.npm.taobao.org
 ```
+
+## 其它
+
+- [自定义DNS](./%E8%87%AA%E5%AE%9A%E4%B9%89DNS.md)
