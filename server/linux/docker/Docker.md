@@ -30,7 +30,7 @@ Docker的镜像文件，相当于是一个只读层，不能往里面写入数�
 
 - 隔离性: 多个容器共用宿主机的内核,隔离性不如虚拟机彻底
 
-### docker网络模式
+### Docker网络模式
 
 - Bridge模式:docker进程启动时,会在主机上创建一个docker0的虚拟网桥,docker会连接网桥
 - Host模式:不会创建一个network namespace,和宿主机共用一个
@@ -219,7 +219,7 @@ docker run -p 3306:3306 --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=1qa
 
 - 运行容器
 ```shell
-docker run -d --hostname rabbit-host --name rabbitmq --restart=always -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=1qaz@WSX -p 15672:15672 -p 5672:5672 rabbitmq:3.7.15-management
+docker run -d --hostname rabbit-host --name rabbitmq --restart=always -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=user -p 15672:15672 -p 5672:5672 rabbitmq:3.7.15-management
 ```
 - --hostname：指定容器主机名称
 - --name:指定容器名称

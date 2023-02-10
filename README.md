@@ -26,7 +26,7 @@
 
 - [MySql相关](./server/MySql.md)
 - [Redis相关](./server/redis/Redis.md)
-- [RabbitMQ](./server/mq/RabbitMq.md)
+- [RabbitMQ](./server/RabbitMq.md)
 - [MongoDB](./server/MongoDB.md)
 
 ## 服务器
