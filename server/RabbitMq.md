@@ -18,6 +18,7 @@ RabbitMq在发送者/队列/接收者中间多了一层抽象.在发送者和队
 - **Queue,队列**:消息队列,保存消息并将他们转发给消费者,多个消费者可以同时订阅一个queue,queue会均分给消费者,不是每个消费者收到相同的消息.
 - **Binding,绑定**: **交换机和队列之间的绑定**,binding中可以包含route key
 
+
 #### 特点
 
 1. RabbitMQ底层使用Erlang语言编写，传递效率高，延迟低
@@ -33,6 +34,25 @@ RabbitMq在发送者/队列/接收者中间多了一层抽象.在发送者和队
 - 应用解耦
 - 流量削峰
 - 消息通讯
+
+### 死信队列
+
+#### 形成原因
+
+1. 消息被拒绝，使用channel.basicNack或channel.basicReject,并且requeue属性被设置为false
+2. 消息在队列的存活时间超过设置的TTL时间 
+3. 消息队列的消息数量已经超过最大队列长度
+
+死信消息会被mq进行特殊处理，如果配置了死信队列和死信交换器，会被丢进死信交换机，如果没有配置，消息将丢失。
+
+#### 如何配置死信队列
+
+1. 配置业务队列，绑定到业务交换器上
+2. 为业务队列配置死信交换器和routing key
+3. 为死信交换器配置死信队列
+
+需要为每个使用死信的队列配置死信交换器，同一个项目的死信交换器可以共用一个，然后为每个业务队列分配一个单独的路由key
+**业务队列如果配置了x-dead-letter-routing-key 参数，死信被投放到死信交换机时，会被替换为x-dead-letter-routing-key 参数的值，没有配置的话，保持原来的值**
 
 ### 常见的消息队列消息模式
 
@@ -50,28 +70,6 @@ RabbitMq在发送者/队列/接收者中间多了一层抽象.在发送者和队
 
 7. Publisher Confimer(发布者确认模式)： 解决发布者与mq之间的消息可靠性
 
-### 常用操作
-
-```shell
-# 新增用户
-rabbitmqctl add_user admin 123456
-# 删除用户
-rabbitmqctl delete_user admin
-# 修改用户密码
-rabbitmqctl  change_password  [Username]  [Newpassword]
-#  查看当前用户列表 
-rabbitmqctl list_users
-# 设置用户角色
-rabbitmqctl set_user_tags [username] [tags]
-# 设置用户权限
-rabbitmqctl set_permissions -p / root ".*" ".*" ".*"
-# 查看(指定hostpath)所有用户的权限信息 
-rabbitmqctl list_permissions [-p VHostPath] 
-# 查看指定用户的权限信息 
-rabbitmqctl list_user_permissions User 
-# 清除用户的权限信息 
-rabbitmqctl clear_permissions  [-p VHostPath]  User
-```
 
 ### RabbitMq怎么保证消息可靠
 
@@ -96,5 +94,26 @@ rabbitmqctl clear_permissions  [-p VHostPath]  User
 
 > 不仅需要持久化消息，还需要持久化Exchange和Queue，可以通过durable的值设为true来保证持久化。
 
-  
 
+### 常用操作
+
+```shell
+# 新增用户
+rabbitmqctl add_user admin 123456
+# 删除用户
+rabbitmqctl delete_user admin
+# 修改用户密码
+rabbitmqctl  change_password  [Username]  [Newpassword]
+#  查看当前用户列表 
+rabbitmqctl list_users
+# 设置用户角色
+rabbitmqctl set_user_tags [username] [tags]
+# 设置用户权限
+rabbitmqctl set_permissions -p / root ".*" ".*" ".*"
+# 查看(指定hostpath)所有用户的权限信息 
+rabbitmqctl list_permissions [-p VHostPath] 
+# 查看指定用户的权限信息 
+rabbitmqctl list_user_permissions User 
+# 清除用户的权限信息 
+rabbitmqctl clear_permissions  [-p VHostPath]  User
+```
