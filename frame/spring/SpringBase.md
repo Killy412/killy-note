@@ -4,10 +4,13 @@
 
 ### 控制反转
 
-ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交给spring框架管理
+ioc是一种面向对象的设计思想,将原本需要在程序中创建对象的控制权,交给spring框架管理
 将对象之间的依赖关系交给ioc管理,并由ioc完成属性的注入
 
 ### 依赖注入
+
+指的是容器在实例化的时候把它依赖的对象注入给他。IOC是思想，DI是IOC的实现。
+主要是为了对象之间的解藕，硬编码会造成对象之间的过度耦合。
 
 ### spring bean线程安全的问题
 
@@ -37,17 +40,10 @@ ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交
 > - jdk动态代理通过反射来生成目标代理接口的匿名实现类.
 > - cglib动态代理:如果目标类没有实现接口,springaop会使用cglib动态代理目标类.可以在运行时生成某个类的子类,通过继承的方式做的动态代理,如果某个类时final,无法使用cglib动态代理
 
+### BeanFactory和ApplicatContext 区别
 
-###  springmvc流程
-
-1. 客户端发送请求,直接请求到dispatcherservlet
-2. DispatcherServlet根据请求信息调用HandlerMapping,解析请求对应的Handler
-3. 解析到对应的Handler之后,开始由HandlerAdapter适配器处理.
-4. HandlerAdapter会根据Handler来调用真正的处理器来处理请求,并处理对应的业务逻辑
-5. 处理器处理完成之后,会返回一个ModelAndView对象,Model是返回的数据对象,View是逻辑上的View
-6. ViewResolver会根据逻辑View查找真正的View
-7. DispatcherServlet会把model传给view进行视图渲染
-8. 返回给客户端
+BeanFactory是Spring框架的基础，可以创建并管理各种类的对象，面向Spring本身。DefaultListableBeanFactory是常用的BeanFactory的实现类
+ApplicantContext建立在BeanFactory的基础上，面向Spring的开发者。由BeanFactory派生而来，提供了更多面向实际应用的功能。
 
 ### spring容器启动
 
@@ -59,8 +55,20 @@ ioc是一种设计思想,将原本需要在程序中创建对象的控制权,交
      - BeanDefinition 资源定位
        - ResourceLoader 加载
 3. 按照Bean的定义创建Bean
-4. 一些Bean生命周期的加载,例如PostProcessor 
+4. Bean生命周期的加载,例如PostProcessor前后处理
 
+
+
+###  springmvc流程
+
+1. 客户端发送请求,直接请求到dispatcherservlet
+2. DispatcherServlet根据请求信息调用HandlerMapping,解析请求对应的Handler
+3. 解析到对应的Handler之后,开始由HandlerAdapter适配器处理.
+4. HandlerAdapter会根据Handler来调用真正的处理器来处理请求,并处理对应的业务逻辑
+5. 处理器处理完成之后,会返回一个ModelAndView对象,Model是返回的数据对象,View是逻辑上的View
+6. ViewResolver会根据逻辑View查找真正的View
+7. DispatcherServlet会把model传给view进行视图渲染
+8. 返回给客户端
 
 ### Spring Bean的生命周期
 

@@ -34,7 +34,7 @@ hard nofile 1000000 # 表示硬性极限
 lib文件 /usr/lib
 	/usr/lib/systemd/system/  # 系统启动文件
 
-## 一些常用命令
+## 常用命令
 
 ### 查看CPU核数相关信息
 ```shell
@@ -86,7 +86,7 @@ netstat -ano | grep tcp |grep 8545
 # 查看端口占用进程
 lsof -i:<端口>
 # 添加执行权限
-chmod a+x <文件名>
+sudo chmod a+x <文件名>
 ```
 
 ### scp 拷贝文件/文件夹命令
@@ -151,7 +151,7 @@ screen -wipe
 ### 后台运行程序命令: nohup
 
 ```shell
-nohup /root/runoob.sh > runoob.log 2>&1 &
+nohup /root/runoob.sh >> runoob.log 2>&1 &
 ```
 
 **2>&1** 解释:
@@ -161,6 +161,10 @@ nohup /root/runoob.sh > runoob.log 2>&1 &
 - 0 – stdin (standard input，标准输入)
 - 1 – stdout (standard output，标准输出)
 - 2 – stderr (standard error，标准错误输出)
+
+**>和>>区别**
+>> 是追加内容
+> 是覆盖原有内容
 
 #### 前台程序转到后台运行
 ```shell
@@ -190,7 +194,11 @@ blkid
 echo "UUID=e943fbb7-020a-4c64-a48a-2597eb2496df /vdb1 ext4 defaults 0 0" >> /etc/fstab
 ```
 
+## shell函数
 
+```shell
+date +%Y-%m-%d # 日期格式化 yyyy-mm-dd
+```
 
 ## 一些常用配置
 
@@ -208,8 +216,7 @@ aliaa ip="curl -i http://ip.cn"
 或者使终端总是使用代理：
 ```
 export http_proxy="socks5://127.0.0.1:1086"
-export https_proxy="socks5:
-//127.0.0.1:1086"
+export https_proxy="socks5://127.0.0.1:1086"
 ```
 
 重启 terminal 生效。可以通过 curl -i http://ip.cn查看IP改变来测试是否生效
