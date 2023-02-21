@@ -151,7 +151,7 @@ mysql binlog有三种工作模式
   >
   > - Record Lock: 行锁,锁住记录行
   > - Gap Lock: 间隙锁,锁住一个区间内的数据行。传统的行锁只能锁定已经存在的数据行，无法阻止插入新行，使用Gap Lock解决幻读。
-  > - NextKey Lock: RecordLock+GapLock, 锁定一个范围.
+  > - NextKey Lock: RecordLock+GapLock, 锁定一个范围.依照左闭右开的原则。
   >
   > 当索引key包含唯一索引时(等值查询时),NextKey Lock会降为Gap Lock.
 

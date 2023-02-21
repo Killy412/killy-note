@@ -45,7 +45,7 @@ ioc是一种面向对象的设计思想,将原本需要在程序中创建对象�
 BeanFactory是Spring框架的基础，可以创建并管理各种类的对象，面向Spring本身。DefaultListableBeanFactory是常用的BeanFactory的实现类
 ApplicantContext建立在BeanFactory的基础上，面向Spring的开发者。由BeanFactory派生而来，提供了更多面向实际应用的功能。
 
-### spring容器启动
+### Spring容器启动
 
 1. 创建一个ApplicationContext
 2. 读取所有的Bean定义并加载
@@ -57,9 +57,7 @@ ApplicantContext建立在BeanFactory的基础上，面向Spring的开发者。�
 3. 按照Bean的定义创建Bean
 4. Bean生命周期的加载,例如PostProcessor前后处理
 
-
-
-###  springmvc流程
+###  SpringMvc流程
 
 1. 客户端发送请求,直接请求到dispatcherservlet
 2. DispatcherServlet根据请求信息调用HandlerMapping,解析请求对应的Handler
@@ -89,5 +87,18 @@ ApplicantContext建立在BeanFactory的基础上，面向Spring的开发者。�
 ### Spring事物实现的方式
 
 1. 编程式事物,需要在代码中调用beginTransaction,commit,rollback等事物相关的方法
-2. 基于TransactionProxyFactoryBean的声明式事物
-3. 基于注解@Transaction的声明式事物
+2. 基于注解@Transaction的声明式事物
+
+### Spring解决循环依赖的方式
+
+Bean创建的过程有三步，`1.创建对象 2.属性赋值 3.初始化`。Spring通过三级缓存解决循环依赖。
+1. `singletonObjects` 一级缓存，存储所有初始化完成的单例Bean
+2. `earlySingletonObjects` 二级缓存，早期曝光对象，存储创建好，但是没有进行属性赋值以及初始化的单例Bean
+3. `singletonFactories` 三级缓存，早期曝光工厂，二级缓存中存储的就是从这个工厂里获取的对象
+当A/B两个类发生循环依赖时，在A完成实例化对象后，会根据实例化之后的A创建一个对象工厂，并放入到三级缓存中，如果A被AOP代理，通过对象工厂获得的对象就是代理之后的对象，如果没有被AOP代理，获取的就是实例化后的对象。然后A进行属性注入，会去创建B，创建完成对B进行属性赋值时，会调用到`getBean(A)`方法获取A，此时会从缓存中获取，先获取到三级缓存中对象工厂，根据对象工厂获取对应的对象，然后注入给B。B走完生命周期走完之后，回到A的生命周期中继续进行属性赋值和初始化。
+
+#### 为什么使用三级，二级缓存不行吗？
+
+使用二级缓存解决循环依赖，意味着所有的Bean在创建之后就要完成AOP代理，违背了Spring的设计原则，Spring设计之初就是通过`AnnotationAwareAspectJAutoProxyCreator` 后置处理器在Bean生命周期的最后一步完成AOP代理，而不是在实例化之后立马进行AOP代理。
+
+
