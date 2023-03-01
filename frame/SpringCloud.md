@@ -46,11 +46,11 @@ Spring Cloud Gateway有如下特性
 
 #### 限流算法
 
-##### 计数器
+- 计数器
 
-##### 漏桶算法
+- 漏桶算法
 
-##### 令牌桶算法
+- 令牌桶算法
 
 ```
 spring:
@@ -75,7 +75,7 @@ spring:
 - replenishRate：令牌桶每秒填充平均速率。每秒允许处理的请求数量
 - key-resolver：用于限流的键的解析器的 Bean 对象的名字。它使用 SpEL 表达式根据#{@beanName}从 Spring 容器中获取 Bean 对象。
 
-###### IP限流
+- IP限流
 
 获取请求用户ip作为限流key。
 
@@ -86,7 +86,7 @@ public KeyResolver hostAddrKeyResolver() {
 }
 ```
 
-###### 用户限流
+- 用户限流
 
 获取请求用户id作为限流key。
 
@@ -97,7 +97,7 @@ public KeyResolver userKeyResolver() {
 }
 ```
 
-###### 接口限流
+- 接口限流
 
 获取请求地址的uri作为限流key。
 

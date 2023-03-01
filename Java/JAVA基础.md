@@ -1,5 +1,12 @@
 ## JDK
 
+### 异常体系
+
+`Thorwable`类是所有异常和错误的超类，下面有`Exception`和`Error`两种，分别代表异常和错误。
+`Exception`分为检查时异常`CheckedException`(非运行时异常)和非检查时异常`UncheckedException`(运行时异常`RuntimeException`)。
+
+派生于`Error`和`RuntimeException`的异常称为非检查时异常，其余异常称为检查时异常
+
 ### 位运算
 
 **二进制中最高位为0 是正数  1是负数**

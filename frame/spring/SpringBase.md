@@ -1,6 +1,12 @@
 # spring相关知识点
 
-## 控制反转(IOC)和依赖注入(DI)怎么理解?
+
+## Spring使用到的设计模式
+
+- 工厂模式
+- 代理模式
+
+## 控制反转(IOC)和依赖注入(DI)
 
 ### 控制反转
 
@@ -9,8 +15,8 @@ ioc是一种面向对象的设计思想,将原本需要在程序中创建对象�
 
 ### 依赖注入
 
-指的是容器在实例化的时候把它依赖的对象注入给他。IOC是思想，DI是IOC的实现。
-主要是为了对象之间的解藕，硬编码会造成对象之间的过度耦合。
+指的是容器在实例化的时候把它依赖的对象注入给他.IOC是思想,DI是IOC的实现.
+主要是为了对象之间的解藕,硬编码会造成对象之间的过度耦合.
 
 ### spring bean线程安全的问题
 
@@ -27,6 +33,8 @@ ioc是一种面向对象的设计思想,将原本需要在程序中创建对象�
 >
 > aop只能拦截spring管理的bean实例
 
+## AOP
+
 ### Spring Aop实现原理
 
 通过动态代理(jdk动态代理或者cglib动态代理) 增强需要增强的类,生成字节码
@@ -37,13 +45,30 @@ ioc是一种面向对象的设计思想,将原本需要在程序中创建对象�
 >
 > spring aop动态代理实现方式有两种,jdk动态代理和cglib动态代理
 >
-> - jdk动态代理通过反射来生成目标代理接口的匿名实现类.
-> - cglib动态代理:如果目标类没有实现接口,springaop会使用cglib动态代理目标类.可以在运行时生成某个类的子类,通过继承的方式做的动态代理,如果某个类时final,无法使用cglib动态代理
+> - jdk动态代理通过反射来生成目标代理接口的匿名实现类.是面向接口的
+> - cglib动态代理:如果目标类没有实现接口,springaop会使用cglib动态代理目标类.可以在运行时生成某个类的子类,通过继承的方式做的动态代理,如果某个类时final,无法使用cglib动态代理.
+
+### Spring AOP和AspectJ区别
+
+|Spring AOP | AspectJ |
+|--- |--- |
+| 在纯Java中实现 | 使用Java编程语言扩展实现 |
+|运行时织入| 支持编译时织入/编译后织入/加载时织入 |
+|仅支持方法级增强| 可以编织字段/方法/构造函数/最终类 |
+| 只能在Spring Bean上实现 | 可以在所有域对象上实现 |
+| 性能差一些 | 性能更好 |
+
+### 事务不生效的情况
+
+1. 同一个类中调用另一个`@Transaction`注解的方法，不会生效。 spring采用动态代理来实现事务控制，而动态代理对象最终要调用目标对象的方法，导致不会触发代理类的方法。解决方案：注入自己/拆分
+2. 非public的方法：Spring AOP在代理时，`TransactionInterceptor`事务拦截器会在目标方法前后进行拦截，获取`@Transaction`注解的事务配置信息时，会检查方法的修饰符是否是`public`，如果不是的话，不会获取注解信息。
+3. 数据库引擎不支持事务，例如：MyIsam
+4. 抛出检查异常不会回滚(**需要抛出非检查异常，即运行期异常才能进行回滚**)
 
 ### BeanFactory和ApplicatContext 区别
 
-BeanFactory是Spring框架的基础，可以创建并管理各种类的对象，面向Spring本身。DefaultListableBeanFactory是常用的BeanFactory的实现类
-ApplicantContext建立在BeanFactory的基础上，面向Spring的开发者。由BeanFactory派生而来，提供了更多面向实际应用的功能。
+BeanFactory是Spring框架的基础,可以创建并管理各种类的对象,面向Spring本身.DefaultListableBeanFactory是常用的BeanFactory的实现类
+ApplicantContext建立在BeanFactory的基础上,面向Spring的开发者.由BeanFactory派生而来,提供了更多面向实际应用的功能.
 
 ### Spring容器启动
 
@@ -84,21 +109,46 @@ ApplicantContext建立在BeanFactory的基础上，面向Spring的开发者。�
 7. DisposableBean: bean不需要的时候,会经过清理阶段,bean实现此接口,会调用**destory()**方法
 8. destory-method:  如果bean在spring配置文件中配置了destory-method属性,会调用配置的销毁方法
 
-### Spring事物实现的方式
+### Spring事务实现的方式
 
-1. 编程式事物,需要在代码中调用beginTransaction,commit,rollback等事物相关的方法
-2. 基于注解@Transaction的声明式事物
+1. 编程式事务,需要在代码中调用beginTransaction,commit,rollback等事务相关的方法
+2. 声明式事务：基于注解@Transaction,底层通过AOP实现,不需要额外编码
+
+### 声明式事务的原理
+
+
+
+### Spring事务隔离级别
+
+- ISOLATION_DEFAULT: 使用后端数据库默认隔离级别,MySQL是可重复读,Oracle是读已提交
+- ISOLATION_READ_UNCOMMITED: 读未提交
+- ISOLATION_READ_COMMITED: 读已提交
+- ISOLATION_REPEATABLE_READ: 可重复读
+- ISOLATION_SERIALIZABLE: 串行化执行
+
+### Spring事务传播机制
+
+| 传播机制|描述|
+|-|-|
+| REQUIERD | 默认,如果没有事务就新建一个事务,如果已经存在,就加入到这个事务中 |
+| SUPPORTS | 支持当前事务,如果没有,以非事务方式执行 |
+| MANDATORY | 使用当前事务,如果没有当前事务,就抛出异常 |
+| REQUIRED_NEW | 新建事务,如果当前有事务,就挂起事务 |
+| NOT_SUPPORTED | 以非事务方式执行,如果当前存在事务,就抛出异常 |
+| NESTED | 如果当前存在事务,则在事务内执行,如果没有当前事务,则执行与REQUIRED类似操作 |
+
+Spring默认的事务传播行为是 `PROPAFATION_REQUIRED`,它适合绝大多数情况,如果多个 ServiceX#methodX()都工作在事务环境下(均被Spring 事务增强),且程序中存在调用链 `Service1#method1()->Service2#method2()->Service3#method3()`,那么这3个服务类的三个方法通过 Spring 的事务传播机制都工作在同一个事务中.
+
+
 
 ### Spring解决循环依赖的方式
 
-Bean创建的过程有三步，`1.创建对象 2.属性赋值 3.初始化`。Spring通过三级缓存解决循环依赖。
-1. `singletonObjects` 一级缓存，存储所有初始化完成的单例Bean
-2. `earlySingletonObjects` 二级缓存，早期曝光对象，存储创建好，但是没有进行属性赋值以及初始化的单例Bean
-3. `singletonFactories` 三级缓存，早期曝光工厂，二级缓存中存储的就是从这个工厂里获取的对象
-当A/B两个类发生循环依赖时，在A完成实例化对象后，会根据实例化之后的A创建一个对象工厂，并放入到三级缓存中，如果A被AOP代理，通过对象工厂获得的对象就是代理之后的对象，如果没有被AOP代理，获取的就是实例化后的对象。然后A进行属性注入，会去创建B，创建完成对B进行属性赋值时，会调用到`getBean(A)`方法获取A，此时会从缓存中获取，先获取到三级缓存中对象工厂，根据对象工厂获取对应的对象，然后注入给B。B走完生命周期走完之后，回到A的生命周期中继续进行属性赋值和初始化。
+Bean创建的过程有三步,`1.创建对象 2.属性赋值 3.初始化`.Spring通过三级缓存解决循环依赖.
+1. `singletonObjects` 一级缓存,存储所有初始化完成的单例Bean
+2. `earlySingletonObjects` 二级缓存,早期曝光对象,存储创建好,但是没有进行属性赋值以及初始化的单例Bean
+3. `singletonFactories` 三级缓存,早期曝光工厂,二级缓存中存储的就是从这个工厂里获取的对象
+当A/B两个类发生循环依赖时,在A完成实例化对象后,会根据实例化之后的A创建一个对象工厂,并放入到三级缓存中,如果A被AOP代理,通过对象工厂获得的对象就是代理之后的对象,如果没有被AOP代理,获取的就是实例化后的对象.然后A进行属性注入,会去创建B,创建完成对B进行属性赋值时,会调用到`getBean(A)`方法获取A,此时会从缓存中获取,先获取到三级缓存中对象工厂,根据对象工厂获取对应的对象,然后注入给B.B走完生命周期走完之后,回到A的生命周期中继续进行属性赋值和初始化.
 
-#### 为什么使用三级，二级缓存不行吗？
+#### 为什么使用三级,二级缓存不行吗？
 
-使用二级缓存解决循环依赖，意味着所有的Bean在创建之后就要完成AOP代理，违背了Spring的设计原则，Spring设计之初就是通过`AnnotationAwareAspectJAutoProxyCreator` 后置处理器在Bean生命周期的最后一步完成AOP代理，而不是在实例化之后立马进行AOP代理。
-
-
+使用二级缓存解决循环依赖,意味着所有的Bean在创建之后就要完成AOP代理,违背了Spring的设计原则,Spring设计之初就是通过`AnnotationAwareAspectJAutoProxyCreator` 后置处理器在Bean生命周期的最后一步完成AOP代理,而不是在实例化之后立马进行AOP代理.
