@@ -8,9 +8,10 @@
 
 ## Java/JVM
 
-- [自动化内存管理](https://github.com/Killy412/killy-note/blob/master/Java/JVM/1.%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.md)
-- [GC相关](https://github.com/Killy412/killy-note/blob/master/Java/JVM/3.%20JVM-GC.md)
-- [内存模型和并发基础](https://github.com/Killy412/killy-note/blob/master/Java/JVM/5.%E5%B9%B6%E5%8F%91.md)
+- [自动化内存管理](./Java/JVM/1.%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.md)
+- [垃圾收集器/内存分配策略](./Java/JVM/2.%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5.md)
+- [JVM调优](./Java/JVM/2.1JVM%E8%B0%83%E4%BC%98.md)
+- [内存模型和并发基础](./Java/JVM/5.%E5%B9%B6%E5%8F%91.md)
 
 ### JDK源码
 

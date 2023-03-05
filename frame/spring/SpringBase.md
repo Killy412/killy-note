@@ -3,8 +3,17 @@
 
 ## Spring使用到的设计模式
 
-- 工厂模式
-- 代理模式
+- 工厂模式：FactoryBean/BeanFactory/ApplicationContext
+- 单例模式：Bean默认都是单例
+- 代理模式： AOP
+- 策略模式：
+- 模板方法： `jdbcTemplate` `hibernateTemplate`
+- 观察者模式： 对象行为模式，对象之间有一种依赖关系，当一个对象发生改变时，对象所依赖的对象也会做出反映。**Spring事件驱动模型**
+  - 事件角色
+  - 事件监听者角色
+  - 事件发布者角色
+- 适配器模式(Adapter Pattern):将一个接口转成另一个接口，可以使不兼容的类一块工作，别名是**包装器**
+- 装饰者模式
 
 ## 控制反转(IOC)和依赖注入(DI)
 
@@ -69,6 +78,65 @@ ioc是一种面向对象的设计思想,将原本需要在程序中创建对象�
 
 BeanFactory是Spring框架的基础,可以创建并管理各种类的对象,面向Spring本身.DefaultListableBeanFactory是常用的BeanFactory的实现类
 ApplicantContext建立在BeanFactory的基础上,面向Spring的开发者.由BeanFactory派生而来,提供了更多面向实际应用的功能.
+
+### BeanFactory和FactoryBean的区别
+
+- `BeanFactory`是一个接口，定义了Spring中工厂的顶级规范，是IOC容器的核心接口，定义了`getBean()` `containsBean()`等Bean的通用方法.
+主要使用场景有从IOC容器获取Bean/检索IOC容器中是否包含指定的Bean/判断Bean是否是单例
+
+```java
+public interface BeanFactory {
+
+	//对FactoryBean的转义定义，因为如果使用bean的名字检索FactoryBean得到的对象是工厂生成的对象，
+	//如果需要得到工厂本身，需要转义
+	String FACTORY_BEAN_PREFIX = "&";
+
+	//根据bean的名字，获取在IOC容器中得到bean实例
+	Object getBean(String name) throws BeansException;
+   ...
+	//提供对bean的检索，看看是否在IOC容器有这个名字的bean
+	boolean containsBean(String name);
+
+	//根据bean名字得到bean实例，并同时判断这个bean是不是单例
+	boolean isSingleton(String name) throws NoSuchBeanDefinitionException;
+   ...
+	//得到bean实例的Class类型
+	@Nullable
+	Class<?> getType(String name) throws NoSuchBeanDefinitionException;
+
+	//得到bean的别名，如果根据别名检索，那么其原名也会被检索出来
+	String[] getAliases(String name);
+}
+
+```
+
+- `FactoryBean`是一个能生产或修饰对象生成的工厂Bean，类似于设计模式中的工厂模式和装饰器模式，能在需要的时候生产一个对象，可以返回任何Bean的实例。
+
+```java
+public interface FactoryBean<T> {
+	//从工厂中获取bean
+	@Nullable
+	T getObject() throws Exception;
+	//获取Bean工厂创建的对象的类型
+	@Nullable
+	Class<?> getObjectType();
+	//Bean工厂创建的对象是否是单例模式
+	default boolean isSingleton() {
+		return true;
+	}
+}
+```
+
+`FactoryBean`表现的是一个工厂的职责。一个Bean实现了FactoryBean的接口，就变成了一个工厂，根据名称获取的对象实际上是工厂调用`getObject`方法返回的对象。如果在名称前面加上`&`符号，返回的是对象工厂，否则返回的是对象。
+
+1. getObject('name')返回工厂中的实例
+2. getObject('&name')返回工厂本身的实例
+
+`FactoryBean`在Spring中最典型的应用是用来**创建AOP的代理对象。** AOP实际上是Spring运行时创建的代理对象，属于工厂方法设计模式。AOP通过Java的反射机制，在运行时创建一个代理对象，在代理对象中根据业务要求织入相应的逻辑。典型对象`ProxyFactoryBean`。`FactoryBean`为我们提供了一个更为灵活的方式，可以创建出更为复杂的Bean。
+
+#### 区别
+
+`BeanFactory`是Spring容器的顶级接口，`FactoryBean`类似于用户自定义的工厂接口。`FactoryBean`本质上也是一个Bean，归`BeanFactory`管理。
 
 ### Spring容器启动
 
