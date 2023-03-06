@@ -25,8 +25,8 @@
 
 ## 数据库/中间件
 
-- [MySql相关](./server/MySql.md)
-- [Redis相关](./server/redis/Redis.md)
+- [MySql](./server/MySql.md)
+- [Redis](./server/redis/Redis.md)
 - [RabbitMQ](./server/RabbitMq.md)
 - [MongoDB](./server/MongoDB.md)
 
