@@ -25,7 +25,7 @@
 ## 服务器
 
 - [Linux](./server/linux/Linux.md)
-- [Docker](./server/linux/docker/docker.md)
+- [Docker](./server/linux/docker/Docker.md)
 - [Git](./server/Git.md)
 - [Hexo常用命令以及配置](./server/Hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md)
 - [Windows相关](./server/windows.md)
