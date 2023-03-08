@@ -1,11 +1,3 @@
-
-## 基础
-
-- [TCP/IP](./base/Network.md)
-- [计算机组成](./base/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86.md)
-- [数据结构](./base/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md)
-- [设计模式](./DesignPatterns/DesignPatterns.md)
-
 ## Java/JVM
 
 - [自动化内存管理](./Java/JVM/1.%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.md)
@@ -42,3 +34,10 @@
 
 - [理论概念](./distributed/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA.md)
 - [Seata框架](./distributed/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E7%89%A9.md)
+
+## 基础
+
+- [TCP/IP](./base/Network.md)
+- [计算机组成](./base/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86.md)
+- [数据结构](./base/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md)
+- [设计模式](./DesignPatterns/DesignPatterns.md)
