@@ -505,5 +505,5 @@ Redis2.8以上的版本使用psync命令完成主从数据同步，有全量复�
 
 #### Redission
 
-Watch Dog 机制是一个后台定时任务线程，获取锁成功之后，会将持有锁的线程放入到一个 `RedissonLock.EXPIRATION_RENEWAL_MAP`里面，然后每隔10秒(internalLockLeaseTime/3)检查一下,如果客户端1还持有锁 key(判断客户端是否还持有 key,其实就是遍历EXPIRATION_RENEWAL_MAP里面线程id然后根据线程id去Redis中查,如果存在就会延长 key 的时间),那么就会不断的延长锁key的生存时间.
+Watch Dog 机制是一个后台定时任务线程，获取锁成功之后，会将持有锁的线程放入到一个 `RedissonLock.EXPIRATION_RENEWAL_MAP`里面，然后每隔10秒(internalLockLeaseTime/3)检查一下,如果客户端1还持有锁 key(判断客户端是否还持有 key,其实就是遍历`EXPIRATION_RENEWAL_MAP`里面线程id然后根据线程id去Redis中查,如果存在就会延长 key 的时间),那么就会不断的延长锁key的生存时间.
 redisson的hash结构中 key 是锁的名称，field 是客户端 ID，value 是该客户端加锁的次数。通过次数实现可重入锁。

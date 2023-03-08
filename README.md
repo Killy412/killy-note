@@ -33,7 +33,7 @@
 ## 分布式
 
 - [理论概念](./distributed/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA.md)
-- [Seata框架](./distributed/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E7%89%A9.md)
+- [Seata框架](./distributed/Seata.md)
 
 ## 基础
 
