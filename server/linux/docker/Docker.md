@@ -262,25 +262,61 @@ vm.max_map_count=262144
 sysctl -p
 ```
 
-- 安装插件-
+- 安装插件
 
 ```shell
 ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.7.0/elasticsearch-analysis-ik-6.7.0.zip
 ```
 
+### 安装mongoDb
+
+1. 启动
+```shell
+docker run -d --name mongodb -p 27017:27017 -v /mnt/data/mongodb/datadb:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin --privileged=true --restart always mongo
+```
+
+- -d 后台运行容器
+- -name mongodb 运行容器名
+- -p 27017:27017 将容器的27017端口映射到主机的27017端口
+- -v /mnt/data/mongodb/datadb:/data/db 文件挂载： 本机:容器
+- -e MONGO_INITDB_ROOT_USERNAME=admin 指定用户名
+- -e MONGO_INITDB_ROOT_PASSWORD=admin 指定密码
+- -privileged=true 使得容器内的root拥有真正的root权限
+- -restart always 跟随docker一起启动，即docker启动时会自动运行容器
+- mongo 运行的镜像名字
+
+2. 进入容器常用操作
+
+```shell
+# admin身份进入容器 mongodb容器名 mongo容器内服务名 admin用户名
+docker exec -it  mongodb mongo admin
+# 创建管理员帐号
+db.createUser({ user: 'admin', pwd: 'admin', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+# 权限认证
+db.auth("admin","admin");
+# 创建新用户和数据库
+db.createUser({ user: 'user', pwd: 'user', roles: [ { role: "readWrite", db: "item" } ] });
+# 切换数据库
+use item;
+# 添加数据
+db.item.save({name:"今天周二"});
+# 查询
+db.item.find();
+```
+
 ### 设置时区
 
 
-#### dockerFile文件中添加如下两句
+- dockerFile文件中添加如下两句
 
-```bash
+```docker
 RUN echo "Asia/Shanghai" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
 ```
 
-#### 运行中的容器
+- 运行中的容器
 
-```bash
+```docker
 # 进入容器中
 docker exec -it <CONTAINER NAME> bash
 # 方法一 -> 执行以下
@@ -290,9 +326,9 @@ dpkg-reconfigure -f noninteractive tzdata
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime # 并且重启
 ```
 
-#### Docker run时指定时区
+- Docker run时指定时区
 
-```
+```docker
 docker run -d <容器> -e TZ=Asia/Shanghai
 ```
 
