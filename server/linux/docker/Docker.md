@@ -304,6 +304,51 @@ db.item.save({name:"今天周二"});
 db.item.find();
 ```
 
+### 启动kafka
+
+1. 创建docker compose 配置文件
+
+```yml
+version: '3'
+
+name: kafka-group
+
+services:
+  zookeeper-test:
+    image: zookeeper
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper_vol:/data
+      - zookeeper_vol:/datalog
+      - zookeeper_vol:/logs
+    container_name: zookeeper-test
+
+  kafka-test:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "localhost"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper-test:2181"
+      KAFKA_LOG_DIRS: "/kafka/logs"
+    volumes:
+      - kafka_vol:/kafka
+    depends_on:
+      - zookeeper-test
+    container_name: kafka-test
+
+volumes:
+  zookeeper_vol: {}
+  kafka_vol: {}
+```
+
+2. 启动
+```sh
+# 启动Kafka容器组
+docker-compose -f kafa-group.yml up -d
+```
+
 ### 设置时区
 
 
