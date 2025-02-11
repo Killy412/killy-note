@@ -27,69 +27,41 @@ k8s有以下几个核心组件
 - kube-proxy负责为service提供cluster内部的服务发现和负载均衡
 
 
-### 安装步骤
 
-环境为Ubuntu 24
-参考自[!K8S学习路径] https://github.com/caicloud/kube-ladder
+### 基础概念(自我理解版)
 
-1. 安装kubectl
+Pod: 是k8s中运行的最小单元，大部分情况代表一个容器，但是是比容器更上层的概念，可能一个Pod包含多个容器
+Deployment: 代表部署管理一组Pod，管理Pod副本和生命周期，比如滚动更新和回滚
+Service: 用来暴露Pod的网络服务，提供访问入口
+Node: 代表工作节点，运行Pod的机器
+Master: 控制节点，负责集群管理
 
-``` 
-curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
- ```
+### 常用命令
 
-上面命令可能失败，就分开几次执行
+```shell
+# 创建Service
+kubectl expose deployment {podName} --port {port} -n {namespace} --type NodePort
 
-```
- curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
- chmod +x kubectl
- sudo mv kubectl /usr/local/bin/
-```
+# 查看
+kubectl get pods -n {namespace} -o wide
+kubectl get deployment -n {namespace}
+kubectl get service -n {namespace}
+kubectl describe pod {podName} -n {namespace}
+kubectl describe deployment {deploymentName} -n {namespace}
+kubectl describe service {serviceName} -n {namespace}
 
-这样可以正常使用kubectl命令了
+# 删除
+kubectl delete service {serviceName} -n {namespace}
+kubectl delete -f {file} -n {namespace}
 
-2. 安装kvm2
-```
- sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
-```
+# 回滚
+# 查看部署状态
+kubectl rollout status deployment {deploymentName} -n {namespace}
+# 回滚
+kubectl rollout undo deployment {deploymentName} -n {namespace}
 
-3. 安装 minikube 需要科学上网，主要用于本地部署kubernetes集群
-```
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && sudo install minikube-linux-amd64 /usr/local/bin/minikube
-```
-
-启动
-```
-minikube start
-# 有时配置更新之后，某个服务有问题，可以停止之后再启动
-minikube stop
-```
-
-验证是否安装成功
+# 修改部署pod数量
+kubectl scale deployments {deploymentName} --replicas={replicasCount} -n {namespace}
 
 ```
-minikube kubectl get nodes
-```
-
-需要docker登陆
-
-```
-sudo docker login --username=killy412 registry.cn-hangzhou.aliyuncs.com
-```
-
-创建depoyonment失败，提示登录失败，需要设置代理
-```
-vim /usr/lib/systemd/system/docker.service
-[Service]
-Environment="HTTP_PROXY=http://127.0.0.1:7890"
-Environment="HTTPS_PROXY=http://127.0.0.1:7890"
-Environment="NO_PROXY=localhost,127.0.0.1"
-
-
-systemctl daemon-reload
-systemctl restart docker
-```
-
-上述方法可以解决docker login 的问题，但是启动delopment时依然拉取不到镜像，代理的问题
-最后解决方法是代理地址不用127.0.0.1，在clash中允许0.0.0.0访问，配置成本机ipv4地址
 
